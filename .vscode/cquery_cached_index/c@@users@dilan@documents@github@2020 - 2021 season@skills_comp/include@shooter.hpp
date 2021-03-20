@@ -25,6 +25,7 @@ extern SHOOTER shooter;
 enum shooterModes{
   SHOT_IN,
   SHOT_OUT,
+  SHOT_SLOW_IN,
   SHOT_MOVE_IN,
   SHOT_MOVE_OUT,
   SHOT_COAST,
@@ -32,6 +33,7 @@ enum shooterModes{
 };
 
 extern void shoot(int num);
+extern void centerShoot(int num);
 
 /*
 * @task: State Machine for Shooter Motor

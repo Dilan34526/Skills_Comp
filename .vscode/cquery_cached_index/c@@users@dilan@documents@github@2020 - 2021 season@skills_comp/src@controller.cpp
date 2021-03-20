@@ -40,7 +40,7 @@ bool stop() {
     return false;
   }
 }
-void driveShoot() {
+void driveShoot(int mode) {
  bool achieved = false;
  bool coast = false;
  bool one = true;
@@ -59,7 +59,7 @@ void driveShoot() {
      shooter.mode = SHOT_OUT;
      delay(2);
    }
-   shooter.mode = SHOT_IN;
+   shooter.mode = mode;
    one = false;
  }
 
@@ -67,10 +67,10 @@ void driveShoot() {
  if(balls[1] == "B") {
    detected = false;
    indx.move_velocity(0);
-   shooter.mode = SHOT_IN;
+   shooter.mode = mode;
  } else if(!detected){
    indx.move(indexer.maxVol);
-   shooter.mode = SHOT_IN;
+   shooter.mode = mode;
  }
 
  drive();
@@ -98,14 +98,10 @@ void controllerInput() {
     shooter.mode = SHOT_OUT;
     pressed = true;
   } else if(m.get_digital(E_CONTROLLER_DIGITAL_R1)) {
-    shooter.mode = SHOT_OUT;
-    indexer.mode = INDX_OUT;
-    intake.mode = INTK_DO_NOTHING;
-    inl.move(-90);
-    inr.move(-90);
-    pressed = true;
+    driveShoot(SHOT_SLOW_IN);
+    pressed = false;
   } else if(m.get_digital(E_CONTROLLER_DIGITAL_L2)) {
-    driveShoot();
+    driveShoot(SHOT_IN);
     pressed = false;
   } else if(m.get_digital(E_CONTROLLER_DIGITAL_X)) {
     shooter.mode = SHOT_IN;
@@ -123,6 +119,6 @@ void controllerInput() {
     intake.mode = INTK_COAST;
   }
   drive();
-  
+
   lcd::set_text(6, "Left " + std::to_string(left.get()));
 }

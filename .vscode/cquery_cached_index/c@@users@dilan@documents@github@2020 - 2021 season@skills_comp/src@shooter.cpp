@@ -27,7 +27,41 @@ void shoot(int num) {
     time = millis() - beginTime;
     if(num == 1) {
       shooter.mode = SHOT_IN;
-    } else if (num == 2 && many - 1 == count.shotOut && once) {
+    } else if (num == 2 && many + 1 == count.shotOut && once) {
+      shot.tare_position();
+      while(shot.get_position() > - 1500 || time > 2000) {
+        time = millis() - beginTime;
+        shooter.mode = SHOT_OUT;
+        delay(10);
+      }
+      once = false;
+    } else if (num == 2) {
+      shooter.mode = SHOT_IN;
+      indexer.mode = INDX_IN;
+    }
+    if(many == count.shotOut || time > 1400 * num) {
+      achieved = true;
+    }
+    delay(10);
+  }
+  shooter.mode = SHOT_MOVE_IN;
+  indexer.mode = INDX_MOVE_IN;
+}
+
+void centerShoot(int num) {
+  bool achieved = false;
+  bool once = true;
+  indexer.mode = INDX_DO_NOTHING;
+  shooter.mode = SHOT_DO_NOTHING;
+  int many = count.shotOut;
+  many = many + num;
+  int beginTime = millis();
+  int time = 0;
+  while(!achieved) {
+    time = millis() - beginTime;
+    if(num == 1) {
+      shooter.mode = SHOT_IN;
+    } else if (num == 2 && many + 1 == count.shotOut && once) {
       int encoder = shot.get_position();
       while(shot.get_position() > encoder - 100 || time > 2000) {
         time = millis() - beginTime;
@@ -62,6 +96,10 @@ void shooterTask(void* param){
       case SHOT_OUT:
         shot.move(shooter.minVol);
     		break;
+
+      case SHOT_SLOW_IN: {
+        shot.move(90);
+      }
 
       case SHOT_MOVE_IN: {
         if(filled[0]) {
