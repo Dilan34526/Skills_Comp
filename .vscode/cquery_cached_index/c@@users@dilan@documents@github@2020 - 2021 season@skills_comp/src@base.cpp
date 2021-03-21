@@ -75,18 +75,30 @@ float	pidCalculate (PID&pid, float setPoint, float processVariable) {
   return output;
 }
 
-float slewCalculate(float lastVal, float newVal, float accel, int maxVoltage) {
+float slewUp(float lastVal, float newVal, float accel, int maxVoltage) {
 	float out = 127;
   if(fabs((newVal - lastVal)) <= accel) {
     out = newVal;
   } else {
 		if(fabs(newVal) < maxVoltage) {
-			out = newVal + -1 * accel;
+			out = newVal;
 		} else {
 			out = lastVal + sign(newVal) * accel;
 		}
   }
 	return limit(out, maxVoltage);
+}
+
+float slewDown (float lastVal, float newVal, float accel, float maxVoltage) {
+    float out = 127;
+    out = lastVal - sign(newVal) * accel;
+    if(fabs(out) < maxVoltage) {
+        out = sign(newVal) * maxVoltage;
+    }
+    if(fabs(newVal) < fabs(out)) {
+        out = newVal;
+    }
+    return out;
 }
 
 void resetEncoders() {

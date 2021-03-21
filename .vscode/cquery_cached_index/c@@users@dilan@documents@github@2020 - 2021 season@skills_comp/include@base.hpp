@@ -66,6 +66,18 @@ extern struct TIMER {
 	unsigned long atTargetTime;
 } TIMER_t;
 
+extern struct LOGGER {
+  std::vector<float> elapsed;
+  std::vector<float> encoder;
+  std::vector<float> target;
+  std::vector<float> power;
+  std::vector<float> grad;
+  std::vector<float> error;
+  std::vector<float> distance;
+  std::vector<float> process;
+  std::vector<float> motor;
+} LOGGER_t;
+
 /*
 * @Prototypes: Initialize Functions
 */
@@ -78,7 +90,8 @@ extern void timerInit(TIMER&timer);
 * @Prototypes: Feedback and Feedforward Functions
 */
 extern float pidCalculate (PID&pid, float setPoint, float processVariable);
-extern float slewCalculate (float lastVal, float newVal, float accel, int maxVoltage);
+extern float slewUp (float lastVal, float newVal, float accel, int maxVoltage);
+extern float slewDown (float lastVal, float newVal, float accel, int maxVoltage);
 
 /*
 * @Prototypes: Brake Mode Functions

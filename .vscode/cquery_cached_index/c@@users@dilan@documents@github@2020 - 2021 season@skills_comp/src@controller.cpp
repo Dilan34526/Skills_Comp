@@ -33,13 +33,13 @@ void keys() {
   }
 }
 
-bool stop() {
-  if(((goalLeft.get_hue() > 300 || goalLeft.get_hue() < 75 ) && (goalRight.get_hue() > 300 || goalRight.get_hue() < 75))) {
-    return true;
-  } else {
-    return false;
-  }
-}
+// bool stop() {
+//   if(((goalLeft.get_hue() > 300 || goalLeft.get_hue() < 75 ) && (goalRight.get_hue() > 300 || goalRight.get_hue() < 75))) {
+//     return true;
+//   } else {
+//     return false;
+//   }
+// }
 void driveShoot(int mode) {
  bool achieved = false;
  bool coast = false;
@@ -49,9 +49,6 @@ void driveShoot(int mode) {
  int many = count.shotOut;
  many = many + 1;
  bool detected = false;
- if(balls[0] == "B") {
-   achieved = true;
- }
  while(!achieved) {
 
  if(count.shotOut == many && one) {
@@ -64,7 +61,7 @@ void driveShoot(int mode) {
  }
 
 
- if(balls[1] == "B") {
+ if(color == "B") {
    detected = false;
    indx.move_velocity(0);
    shooter.mode = mode;
@@ -74,14 +71,15 @@ void driveShoot(int mode) {
  }
 
  drive();
- if(stop()) {
-   coast = true;
- }
- if(!coast) {
-   keys();
- } else {
-   intake.mode = INTK_COAST;
- }
+ // if(stop()) {
+ //   coast = true;
+ // }
+ // if(!coast) {
+ //   keys();
+ // } else {
+ //   intake.mode = INTK_COAST;
+ // }
+ keys();
 
  if(!m.get_digital(E_CONTROLLER_DIGITAL_L2)) {
    achieved = true;
@@ -97,13 +95,10 @@ void controllerInput() {
     indexer.mode = INDX_OUT;
     shooter.mode = SHOT_OUT;
     pressed = true;
-  } else if(m.get_digital(E_CONTROLLER_DIGITAL_R1)) {
-    driveShoot(SHOT_SLOW_IN);
-    pressed = false;
   } else if(m.get_digital(E_CONTROLLER_DIGITAL_L2)) {
     driveShoot(SHOT_IN);
     pressed = false;
-  } else if(m.get_digital(E_CONTROLLER_DIGITAL_X)) {
+  } else if(m.get_digital(E_CONTROLLER_DIGITAL_R1)) {
     shooter.mode = SHOT_IN;
     indexer.mode = INDX_IN;
     pressed = false;
@@ -120,5 +115,5 @@ void controllerInput() {
   }
   drive();
 
-  lcd::set_text(6, "Left " + std::to_string(left.get()));
+  // lcd::set_text(6, "Left " + std::to_string(left.get()));
 }

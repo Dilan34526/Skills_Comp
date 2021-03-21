@@ -3,13 +3,10 @@
 #include <queue>
 
 Distance shotDist(SHOT_DIST);
-Optical goalLeft(GOLFT_OPT);
-Optical goalRight(GORGT_OPT);
 Optical indxOpt(INDX_OPT);
-Optical shotOpt(SHOT_OPT);
 
 
-std::array<std::string, 2> balls {"N", "N"};
+std::string color = "N";
 std::array<bool, 2> filled {false, false};
 
 OUT out;
@@ -24,9 +21,6 @@ void initOut() {
 void initCount() {
   count.shotOut = 0;
   indxOpt.set_led_pwm(50);
-  shotOpt.set_led_pwm(50);
-  goalLeft.set_led_pwm(50);
-  goalRight.set_led_pwm(50);
 }
 
 void countBalls() {
@@ -52,14 +46,6 @@ void countBalls() {
     filled[0] = false;
   }
 
-  if(shotOpt.get_hue() < 50 || shotOpt.get_hue() > 300) {
-    balls[0] = "R";
-  } else if (shotOpt.get_hue() > 150 && shotOpt.get_hue() < 300){
-    balls[0] = "B";
-  } else {
-    balls[0] = "N";
-  }
-
   if(indxOpt.get_proximity() > 200) {
     filled[1] = true;
     delay(5);
@@ -68,11 +54,11 @@ void countBalls() {
   }
 
   if(indxOpt.get_hue() < 100 || indxOpt.get_hue() > 325) {
-    balls[1] = "R";
+    color = "R";
   } else if (indxOpt.get_hue() > 150 && indxOpt.get_hue() < 300) {
-    balls[1] = "B";
+    color = "B";
   } else {
-    balls[1] = "N";
+    color = "N";
   }
 }
 

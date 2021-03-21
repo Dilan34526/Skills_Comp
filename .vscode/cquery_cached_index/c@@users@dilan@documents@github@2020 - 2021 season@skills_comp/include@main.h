@@ -38,36 +38,35 @@
 #include "auton.hpp"
 #include "base.hpp"
 #include "count.hpp"
+#include "correct.hpp"
 #include "controller.hpp"
 #include "drive.hpp"
 #include "intake.hpp"
 #include "indexer.hpp"
+#include "sensor.hpp"
 #include "shooter.hpp"
+#include "turn.hpp"
 #include "util.hpp"
 
 using namespace pros;
 
 //ports
-//19 was broken
-#define DLF 2
-#define DLB 1
-#define DRF 9
-#define DRB 10
-#define DIMU 7
-#define INL 12
-#define INR 19
-#define INDX 20
-#define SHOT 11
+#define DLF 11
+#define DLB 12
+#define DRF 20
+#define DRB 19
+#define DIMU 8
+#define INL 13
+#define INR 18
+#define INDX 16
+#define SHOT 15
 
-#define GOAL_DIST 5
-#define SHOT_DIST 8
-#define INDX_OPT 14
-#define SHOT_OPT 6
-#define GOLFT_OPT 3
-#define GORGT_OPT 16
+#define GOAL_DIST 4
+#define SHOT_DIST 9
+#define INDX_OPT 3
 
-#define LFT 13
-#define BCK 18
+#define LFT 1
+#define BCK 10
 
 #define LINE 'A'
 #define SIDE_1 'G'
@@ -88,13 +87,10 @@ extern Imu imu;
 extern Distance goal;
 extern Distance left;
 extern Distance back;
-extern Optical goalLeft;
-extern Optical goalRight;
 extern Optical indxLeft;
 extern Optical indxRight;
 
 extern ADIAnalogIn line;
-extern ADIUltrasonic ultra;
 extern ADIEncoder track;
 
 #define WHEEL_CIRCMF (3.25 * M_PI)

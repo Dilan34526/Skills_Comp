@@ -154,7 +154,7 @@ void auton(){
   shooter.mode = SHOT_MOVE_IN;
   intake.mode = INTK_IN;
   indexer.mode = INDX_MOVE_IN;
-  pidInit(headingPID, 3, 0, 0, 0, 0);
+  pidInit(headingPID, 1, 0, 0, 0, 0);
   pidInit(turnPID, 5, 0, 0.25, 0, 0);
   pidInit(drivePID, 1, 0, 0.125, 0, 0);
   pidInit(distPID, 9.5, 0, 0.125, 0, 0);
