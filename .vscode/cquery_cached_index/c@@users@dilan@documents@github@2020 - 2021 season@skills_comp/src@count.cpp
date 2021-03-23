@@ -2,11 +2,12 @@
 #include <iterator>
 #include <queue>
 
-Distance shotDist(SHOT_DIST);
+Distance empty(EMPTY);
 Optical indxOpt(INDX_OPT);
+Optical shotOpt(SHOT_OPT);
 
 
-std::string color = "N";
+std::array<std::string, 2> color {"N", "N"};
 std::array<bool, 2> filled {false, false};
 
 OUT out;
@@ -21,19 +22,20 @@ void initOut() {
 void initCount() {
   count.shotOut = 0;
   indxOpt.set_led_pwm(50);
+  shotOpt.set_led_pwm(50);
 }
 
 void countBalls() {
 
 
-  if(shot.get_actual_velocity() > 0 && shotDist.get() < out.down) {
+  if(shot.get_actual_velocity() > 0 && empty.get() < out.down) {
     out.wentDownShot = true;
   }
 
 
 
   if(out.wentDownShot) {
-    if(shotDist.get() > out.up) {
+    if(empty.get() > out.up) {
       out.wentDownShot = false;
       count.shotOut++;
     }
@@ -53,12 +55,20 @@ void countBalls() {
     filled[1] = false;
   }
 
-  if(indxOpt.get_hue() < 100 || indxOpt.get_hue() > 325) {
-    color = "R";
-  } else if (indxOpt.get_hue() > 150 && indxOpt.get_hue() < 300) {
-    color = "B";
+  if(shotOpt.get_hue() < 50 || shotOpt.get_hue() > 300) {
+    color[0] = "R";
+  } else if (shotOpt.get_hue() > 150 && shotOpt.get_hue() < 300){
+    color[0] = "B";
   } else {
-    color = "N";
+    color[0] = "N";
+  }
+
+  if(indxOpt.get_hue() < 100 || indxOpt.get_hue() > 325) {
+    color[1] = "R";
+  } else if (indxOpt.get_hue() > 150 && indxOpt.get_hue() < 300) {
+    color[1] = "B";
+  } else {
+    color[1] = "N";
   }
 }
 

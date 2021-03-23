@@ -51,6 +51,7 @@
 using namespace pros;
 
 //ports
+//motors
 #define DLF 11
 #define DLB 12
 #define DRF 20
@@ -61,13 +62,18 @@ using namespace pros;
 #define INDX 16
 #define SHOT 15
 
-#define GOAL_DIST 4
-#define SHOT_DIST 9
-#define INDX_OPT 3
+//optical
+#define INDX_OPT 14
+#define SHOT_OPT 21
 
+//distance
 #define LFT 1
+#define EMPTY 9
+#define DOWN 4
 #define BCK 10
+#define DIAG 7
 
+//v4 sensors
 #define LINE 'A'
 #define SIDE_1 'G'
 #define SIDE_2 'H'
@@ -84,11 +90,11 @@ extern Motor shot;
 extern Controller m;
 
 extern Imu imu;
-extern Distance goal;
+extern Distance down;
 extern Distance left;
 extern Distance back;
-extern Optical indxLeft;
-extern Optical indxRight;
+extern Distance diag;
+extern Optical indxOpt;
 
 extern ADIAnalogIn line;
 extern ADIEncoder track;

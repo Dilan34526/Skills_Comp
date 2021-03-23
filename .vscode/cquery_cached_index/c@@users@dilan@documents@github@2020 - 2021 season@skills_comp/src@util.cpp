@@ -28,9 +28,9 @@ float sign(float input){
 float limit(float input, float max) {
   // limit the number to a maximum value
   float output;
-  if(fabs(input) > max)
+  if(fabs(input) > fabs(max))
   {
-      output = max * sign(input);
+      output = fabs(max) * sign(input);
   } else {
     output = input;
   }

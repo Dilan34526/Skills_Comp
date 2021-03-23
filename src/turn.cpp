@@ -1,6 +1,7 @@
 #include "main.h"
 
 float imuDifference = 65;
+float target = 0;
 
 PID turnPID;
 LOOP turnLOOP;
@@ -9,8 +10,9 @@ LOGGER turnVec;
 TIMER turnTimed;
 
 void turn(float fTarget, int maxVoltage, int maxTime) {
-
+ target = fTarget + imuDifference;
  float range = 0.5;
+ float absVoltage = abs(maxVoltage);
 
  clearLCDLines();
  resetEncoders();
@@ -30,10 +32,13 @@ void turn(float fTarget, int maxVoltage, int maxTime) {
    // update PID calculations
    turnLOOP.pidOut = pidCalculate(turnPID, turnLOOP.target, turnLOOP.processVariable);
 
-   turnLOOP.motorOut = slewUp(turnSLEW.lastValMTR, turnLOOP.pidOut, turnSLEW.accelRate, maxVoltage);
+   turnSLEW.accelRate = signChecker(turnSLEW.accelRate, turnLOOP.pidOut);
+   maxVoltage = signChecker(maxVoltage, turnLOOP.pidOut);
 
-   driveL(turnLOOP.motorOut, maxVoltage);
-	 driveR(-turnLOOP.motorOut, maxVoltage);
+   turnLOOP.motorOut = slewCalculate(turnSLEW.lastValMTR, turnLOOP.pidOut, turnSLEW.accelRate, maxVoltage);
+
+   driveL(turnLOOP.motorOut, absVoltage);
+	 driveR(-turnLOOP.motorOut, absVoltage);
 
    turnSLEW.lastValMTR = turnLOOP.motorOut;
 

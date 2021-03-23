@@ -11,17 +11,21 @@ LOGGER driveVec;
 void drive(float fTarget, int maxVoltage, float distance, int smallVoltage, int maxTime) {
   fTarget = fTarget/WHEEL_CIRCMF * 360 / 5 * 3;
   distance = distance/WHEEL_CIRCMF * 360 / 5 * 3;
+  int absVoltage = abs(maxVoltage);
 
   float range = 10;
-  float velocity = 10;
+  float velocity = 4;
 
-  float headingCorrection = 0.2 * maxVoltage;
+  driveSLEW.accelRate = signChecker(driveSLEW.accelRate, fTarget);
+  turnSLEW.accelRate = signChecker(turnSLEW.accelRate, absVoltage);
+
+  float headingCorrection = 0.2 * absVoltage;
 
   clearLCDLines();
   resetEncoders();
   brakeDrive();
   loopInit(driveLOOP, fTarget);
-  loopInit(turnLOOP, imu.get_rotation());
+  loopInit(turnLOOP, target);
   timerInit(timed);
 
   while(!timed.atTarget) {
@@ -38,17 +42,17 @@ void drive(float fTarget, int maxVoltage, float distance, int smallVoltage, int 
 
     //calculate the SLEWs
     if(fabs(driveLOOP.processVariable) < fabs(distance)) {
-      driveLOOP.motorOut = slewUp(driveSLEW.lastValMTR, driveLOOP.pidOut, driveSLEW.accelRate, maxVoltage);
+      driveLOOP.motorOut = slewCalculate(driveSLEW.lastValMTR, driveLOOP.pidOut, driveSLEW.accelRate, maxVoltage);
     } else {
-      driveLOOP.motorOut = slewDown(driveSLEW.lastValMTR, driveLOOP.pidOut, driveSLEW.accelRate, smallVoltage);
+      driveLOOP.motorOut = slewCalculate(driveSLEW.lastValMTR, driveLOOP.pidOut, driveSLEW.accelRate, smallVoltage);
     }
 
     if(headingCorrection < fabs(turnLOOP.pidOut)) {
       turnLOOP.motorOut = headingCorrection * sign(turnLOOP.pidOut);
     }
 
-    driveL(driveLOOP.motorOut + turnLOOP.motorOut, maxVoltage);
-    driveR(driveLOOP.motorOut - turnLOOP.motorOut, maxVoltage);
+    driveL(driveLOOP.motorOut + turnLOOP.motorOut, absVoltage);
+    driveR(driveLOOP.motorOut - turnLOOP.motorOut, absVoltage);
 
     driveSLEW.lastValMTR = driveLOOP.motorOut;
 
@@ -64,7 +68,6 @@ void drive(float fTarget, int maxVoltage, float distance, int smallVoltage, int 
 
     //  break out of while loop if the elapsed time of the function is too long
     if(timed.timer > maxTime){
-      // timeOut.push_back(1.0);
       lockDrive();
       lcd::print(1, "LOOP TIMED OUT at %lu", millis());
       timed.atTarget = true;
@@ -79,20 +82,29 @@ void drive(float fTarget, int maxVoltage, float distance, int smallVoltage, int 
   }
 }
 
+void drive(float fTarget, int maxVoltage, float distance, int smallVoltage) {
+  drive(fTarget, maxVoltage, distance, smallVoltage, 5000);
+}
+
 void drive(float fTarget, int maxVoltage, int maxTime) {
 
    fTarget = fTarget/WHEEL_CIRCMF * 360 / 5 * 3;
 
    float range = 10;
-   float velocity = 10;
+   float velocity = 4;
+   float absVoltage = abs(maxVoltage);
 
-   float headingCorrection = 0.2 * maxVoltage;
+
+   driveSLEW.accelRate = signChecker(driveSLEW.accelRate, fTarget);
+   turnSLEW.accelRate = signChecker(turnSLEW.accelRate, absVoltage);
+
+   float headingCorrection = 0.2 * absVoltage;
 
    clearLCDLines();
 	 resetEncoders();
 	 brakeDrive();
    loopInit(driveLOOP, fTarget);
-   loopInit(turnLOOP, floor(imu.get_rotation()));
+   loopInit(turnLOOP, target);
    timerInit(timed);
 
    while(!timed.atTarget) {
@@ -108,14 +120,14 @@ void drive(float fTarget, int maxVoltage, int maxTime) {
       turnLOOP.pidOut = pidCalculate(headingPID, turnLOOP.target, turnLOOP.processVariable);
 
       //calculate the SLEW
-      driveLOOP.motorOut = slewUp(driveSLEW.lastValMTR, driveLOOP.pidOut, driveSLEW.accelRate, maxVoltage);
+      driveLOOP.motorOut = slewCalculate(driveSLEW.lastValMTR, driveLOOP.pidOut, driveSLEW.accelRate, maxVoltage);
 
       if(headingCorrection < fabs(turnLOOP.pidOut)) {
         turnLOOP.motorOut = headingCorrection * sign(turnLOOP.pidOut);
       }
 
-      driveL(driveLOOP.motorOut + turnLOOP.motorOut, maxVoltage);
-      driveR(driveLOOP.motorOut - turnLOOP.motorOut, maxVoltage);
+      driveL(driveLOOP.motorOut + turnLOOP.motorOut, absVoltage);
+      driveR(driveLOOP.motorOut - turnLOOP.motorOut, absVoltage);
 
       driveSLEW.lastValMTR = driveLOOP.motorOut;
 
@@ -131,7 +143,6 @@ void drive(float fTarget, int maxVoltage, int maxTime) {
 
       //  break out of while loop if the elapsed time of the function is too long
 		  if(timed.timer > maxTime){
-        // timeOut.push_back(1.0);
         lockDrive();
         lcd::print(1, "LOOP TIMED OUT at %lu", millis());
 			  timed.atTarget = true;
@@ -141,6 +152,13 @@ void drive(float fTarget, int maxVoltage, int maxTime) {
       driveVec.process.push_back(driveLOOP.processVariable);
       driveVec.target.push_back(driveLOOP.target);
       driveVec.motor.push_back(driveLOOP.motorOut);
+      driveVec.turn.push_back(turnLOOP.motorOut);
+
+
+      lcd::print(0, "PROCESS: %f", turnLOOP.processVariable);
+      lcd::print(1, "TARGET %f", turnLOOP.target);
+      lcd::print(2, "PID OUT %f", turnLOOP.pidOut);
+      lcd::print(3, "MOTOR %f", turnLOOP.motorOut);
 
       delay(10);
    }

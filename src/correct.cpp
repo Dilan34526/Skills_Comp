@@ -40,7 +40,7 @@ void goToBall(float heading) {
     turn(angle_absolute, 20, 300);
     drive(dist, 115);
   } else {
-    pidInit(distPID, 9.5, 0, 0.125, 0, 0);
+    pidInit(backPID, 9.5, 0, 0.125, 0, 0);
     driveBack(by, 115);
   }
 }

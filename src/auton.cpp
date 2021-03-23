@@ -2,16 +2,23 @@
 
 void firstGoal() {
   drive(35.5, 125);
-  turn(-135, 125, 1600);
+  turn(-135, 125);
   intake.mode = INTK_COAST;
   driveToGoal(18, 125);
   shoot(1);
-  pidInit(headingPID, 1, 0, 0, 0, 0);
-  drive(-47.5, 110);
-  pidInit(headingPID, 3, 0, 0, 0, 0);
-  pidInit(turnPID, 5, 0, 0.3, 0, 0);
-  turn(0, 125, 1600);
-  intake.mode = INTK_IN;
+  driveDiag(1100, -100);
+  turn(0, 125);
+  // intake.mode = INTK_IN;
+
+  // intake.mode = INTK_COAST;
+  // driveToGoal(18, 125);
+  // shoot(1);
+  // pidInit(headingPID, 1, 0, 0, 0, 0);
+  // drive(-47.5, 110);
+  // pidInit(headingPID, 3, 0, 0, 0, 0);
+  // pidInit(turnPID, 5, 0, 0.3, 0, 0);
+  // turn(0, 125, 1600);
+  // intake.mode = INTK_IN;
 }
 
 void secondGoal() {
@@ -157,19 +164,20 @@ void auton(){
   pidInit(headingPID, 1, 0, 0, 0, 0);
   pidInit(turnPID, 5, 0, 0.25, 0, 0);
   pidInit(drivePID, 1, 0, 0.125, 0, 0);
-  pidInit(distPID, 9.5, 0, 0.125, 0, 0);
-  slewInit(driveSLEW, 20);
-  slewInit(turnSLEW, 40);
+  pidInit(backPID, 9.5, 0, 0.125, 0, 0);
+  pidInit(diagPID, 1, 0, 0.125, 0, 0);
+  slewInit(driveSLEW, 15);
+  slewInit(turnSLEW, 20);
 
   firstGoal();
-  secondGoal();
-  thirdGoal();
-  fourthGoal();
-  fifthGoal();
-  sixthGoal();
-  v2();
-  seventhGoal();
-  eighthGoal();
+  // secondGoal();
+  // thirdGoal();
+  // fourthGoal();
+  // fifthGoal();
+  // sixthGoal();
+  // v2();
+  // seventhGoal();
+  // eighthGoal();
 
 
   // delay(500);
@@ -184,7 +192,7 @@ void auton(){
   lcd::print(7, "Elapsed %d", elapsed);
 
   std::vector<std::pair<std::string, std::vector<float>>> drive
-  = {{"Elapsed", driveVec.elapsed}, {"Process", driveVec.process},  {"Target", driveVec.target}, {"Motor", driveVec.motor}};
+  = {{"Elapsed", driveVec.elapsed}, {"Process", driveVec.process},  {"Target", driveVec.target}, {"Motor", driveVec.motor} , {"Turn", driveVec.turn}};
   write_csv("/usd/Drive.csv", drive);
 
   std::vector<std::pair<std::string, std::vector<float>>> goal

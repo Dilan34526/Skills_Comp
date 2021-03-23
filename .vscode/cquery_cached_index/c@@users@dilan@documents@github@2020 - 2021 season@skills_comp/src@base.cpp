@@ -10,7 +10,8 @@ Imu imu(DIMU);
 
 Distance left(LFT);
 Distance back(BCK);
-Distance goal(GOAL_DIST);
+Distance down(DOWN);
+Distance diag(DIAG);
 
 void pidInit (PID&pid, float kP, float kI, float kD, float epsilonInner, float epsilonOuter) {
 	pid.kP = kP;
@@ -75,27 +76,16 @@ float	pidCalculate (PID&pid, float setPoint, float processVariable) {
   return output;
 }
 
-float slewUp(float lastVal, float newVal, float accel, int maxVoltage) {
-	float out = 127;
-  if(fabs((newVal - lastVal)) <= accel) {
-    out = newVal;
-  } else {
-		if(fabs(newVal) < maxVoltage) {
-			out = newVal;
-		} else {
-			out = lastVal + sign(newVal) * accel;
-		}
-  }
-	return limit(out, maxVoltage);
-}
-
-float slewDown (float lastVal, float newVal, float accel, float maxVoltage) {
+float slewCalculate (float lastVal, float newVal, float accel, float maxVoltage) {
     float out = 127;
-    out = lastVal - sign(newVal) * accel;
-    if(fabs(out) < maxVoltage) {
-        out = sign(newVal) * maxVoltage;
+    out = lastVal + accel;
+    if(fabs(out) > fabs(maxVoltage) && fabs(lastVal) < fabs(maxVoltage)) {
+        out = maxVoltage;
     }
-    if(fabs(newVal) < fabs(out)) {
+    if(lastVal == maxVoltage) {
+      out = maxVoltage;
+    }
+    if(fabs(newVal) < fabs(maxVoltage)) {
         out = newVal;
     }
     return out;
@@ -148,7 +138,7 @@ void driveZero() {
   drb.move(0);
 }
 
-void driveL(float input, int maxVoltage){
+void driveL(float input, unsigned int maxVoltage){
   /*
   * @Ternerary: Is the abs input voltage greater than the max?
   *   @ yes:  limit voltage to max * direction
@@ -159,7 +149,7 @@ void driveL(float input, int maxVoltage){
   dlf.move(finalPower);
   dlb.move(finalPower);
 }
-void driveR(float input, int maxVoltage){
+void driveR(float input, unsigned int maxVoltage){
   /*
   * @Ternerary: Is the abs input voltage greater than the max?
   *   @ yes:  limit voltage to max * direction
@@ -177,7 +167,7 @@ float getAverageEncoderValues(){
   return (left + right)/2;
 }
 
-float relativeDistance(float origin, float sensor, bool okay) {
+float relativeDistanceBack(float origin, float sensor, bool okay) {
   if(okay) {
     if(sensor < 5000 || sensor > 400) {
     	float dist = (sensor - origin)/25.4;
@@ -188,4 +178,25 @@ float relativeDistance(float origin, float sensor, bool okay) {
   } else {
     return (getAverageEncoderValues()/216 * WHEEL_CIRCMF);
   }
+}
+
+float relativeDistanceDiag(float origin, float sensor, bool okay) {
+	if(okay) {
+    if(sensor < 5000 || sensor > 25) {
+    	float dist = sensor;
+			return dist;
+  	} else {
+    return (((getAverageEncoderValues()/216 * WHEEL_CIRCMF)*25.4/sqrt(2)) + origin);
+  	}
+  } else {
+    return (((getAverageEncoderValues()/216 * WHEEL_CIRCMF)*25.4/sqrt(2)) + origin);
+  }
+}
+
+
+float signChecker(float input, float sameSign) {
+	if(sign(sameSign) != sign(input)) {
+	  input = -1 * input;
+	}
+	return input;
 }

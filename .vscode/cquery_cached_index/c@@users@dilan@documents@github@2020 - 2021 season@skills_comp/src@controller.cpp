@@ -23,13 +23,10 @@ void drive() {
 void keys() {
   if(m.get_digital(E_CONTROLLER_DIGITAL_R2)) {
     intake.mode = INTK_IN;
-    lcd::set_text(2, "IN");
   } else if(m.get_digital(E_CONTROLLER_DIGITAL_R1)) {
     intake.mode = INTK_OUT;
-    lcd::set_text(3, "Out");
   } else {
     intake.mode = INTK_COAST;
-    lcd::set_text(4, "Coast");
   }
 }
 
@@ -49,6 +46,9 @@ void driveShoot(int mode) {
  int many = count.shotOut;
  many = many + 1;
  bool detected = false;
+ if(color[0] == "B") {
+   achieved = true;
+ }
  while(!achieved) {
 
  if(count.shotOut == many && one) {
@@ -60,25 +60,14 @@ void driveShoot(int mode) {
    one = false;
  }
 
-
- if(color == "B") {
-   detected = false;
+ if(color[1] == "B") {
    indx.move_velocity(0);
-   shooter.mode = mode;
- } else if(!detected){
+ } else {
    indx.move(indexer.maxVol);
-   shooter.mode = mode;
  }
+ shooter.mode = mode;
 
  drive();
- // if(stop()) {
- //   coast = true;
- // }
- // if(!coast) {
- //   keys();
- // } else {
- //   intake.mode = INTK_COAST;
- // }
  keys();
 
  if(!m.get_digital(E_CONTROLLER_DIGITAL_L2)) {
@@ -95,12 +84,12 @@ void controllerInput() {
     indexer.mode = INDX_OUT;
     shooter.mode = SHOT_OUT;
     pressed = true;
+  } else if(m.get_digital(E_CONTROLLER_DIGITAL_X)) {
+    indexer.mode = INDX_IN;
+    shooter.mode = SHOT_IN;
+    pressed = false;
   } else if(m.get_digital(E_CONTROLLER_DIGITAL_L2)) {
     driveShoot(SHOT_IN);
-    pressed = false;
-  } else if(m.get_digital(E_CONTROLLER_DIGITAL_R1)) {
-    shooter.mode = SHOT_IN;
-    indexer.mode = INDX_IN;
     pressed = false;
   } else {
     shooter.mode = SHOT_MOVE_IN;
@@ -110,6 +99,8 @@ void controllerInput() {
 
   if(m.get_digital(E_CONTROLLER_DIGITAL_R2)) {
     intake.mode = INTK_IN;
+  } else if (m.get_digital(E_CONTROLLER_DIGITAL_R1)) {
+    intake.mode = INTK_OUT;
   } else if(!pressed) {
     intake.mode = INTK_COAST;
   }

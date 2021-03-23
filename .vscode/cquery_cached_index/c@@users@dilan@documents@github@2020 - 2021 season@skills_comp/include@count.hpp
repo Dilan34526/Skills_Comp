@@ -20,7 +20,7 @@ extern struct COUNT {
 extern COUNT count;
 
 extern std::array<bool, 2> filled;
-extern std::string color;
+extern std::array<std::string, 2> color;
 
 /*
 * @task: State Machine for Counting Balls

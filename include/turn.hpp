@@ -3,6 +3,7 @@
 #include "base.hpp"
 
 extern float imuDifference;
+extern float target; 
 
 extern PID turnPID;
 extern SLEW turnSLEW;

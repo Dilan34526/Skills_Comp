@@ -76,6 +76,8 @@ extern struct LOGGER {
   std::vector<float> distance;
   std::vector<float> process;
   std::vector<float> motor;
+	std::vector<float> timeOut;
+	std::vector<float> turn;
 } LOGGER_t;
 
 /*
@@ -90,8 +92,7 @@ extern void timerInit(TIMER&timer);
 * @Prototypes: Feedback and Feedforward Functions
 */
 extern float pidCalculate (PID&pid, float setPoint, float processVariable);
-extern float slewUp (float lastVal, float newVal, float accel, int maxVoltage);
-extern float slewDown (float lastVal, float newVal, float accel, int maxVoltage);
+extern float slewCalculate (float lastVal, float newVal, float accel, float maxVoltage);
 
 /*
 * @Prototypes: Brake Mode Functions
@@ -105,12 +106,14 @@ extern void driveZero();
 /*
 * @Prototypes: Distance Functions
 */
-extern float relativeDistance(float origin, float sensor, bool okay);
+extern float relativeDistanceBack(float origin, float sensor, bool okay);
+extern float relativeDistanceDiag(float origin, float sensor, bool okay);
 /*
 * @Prototypes: Motor Specific Functions
 */
 extern void resetEncoders();
 extern float getAverageEncoderValues();
-extern void driveL(float input, int maxVoltage);
-extern void driveR(float input, int maxVoltage);
+extern float signChecker(float input, float sameSign);
+extern void driveL(float input, unsigned int maxVoltage);
+extern void driveR(float input, unsigned int maxVoltage);
 #endif
