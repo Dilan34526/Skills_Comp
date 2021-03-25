@@ -35,7 +35,10 @@ void shoot(int num) {
         delay(10);
       }
       once = false;
-    } else if (num == 2) {
+    } else if (num == 2 && !once) {
+      shooter.mode = SHOT_SLOW_IN;
+      indexer.mode = INDX_IN;
+    } else if(num == 2 && once) {
       shooter.mode = SHOT_IN;
       indexer.mode = INDX_IN;
     }

@@ -71,13 +71,15 @@ extern struct LOGGER {
   std::vector<float> encoder;
   std::vector<float> target;
   std::vector<float> power;
-  std::vector<float> grad;
+  std::vector<float> prev;
   std::vector<float> error;
   std::vector<float> distance;
   std::vector<float> process;
   std::vector<float> motor;
 	std::vector<float> timeOut;
 	std::vector<float> turn;
+	std::vector<float> pid;
+	std::vector<float> accel;
 } LOGGER_t;
 
 /*
@@ -114,6 +116,7 @@ extern float relativeDistanceDiag(float origin, float sensor, bool okay);
 extern void resetEncoders();
 extern float getAverageEncoderValues();
 extern float signChecker(float input, float sameSign);
+extern void resetSLEW();
 extern void driveL(float input, unsigned int maxVoltage);
 extern void driveR(float input, unsigned int maxVoltage);
 #endif

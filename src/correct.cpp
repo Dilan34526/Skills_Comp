@@ -15,11 +15,8 @@ void goToBall(float heading) {
     delay(2);
 	}
 
-  lcd::set_text(0, "LEFT: " + std::to_string(rx));
-  lcd::set_text(1, "BACK: " + std::to_string(ry));
-
   float bx = 1070;
-  float by = 1710;
+  float by = 1690;
 
   float x_error  = (bx - rx)/25.4;
   float y_error =  (by - ry)/25.4;

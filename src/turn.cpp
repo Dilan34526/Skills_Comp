@@ -14,9 +14,11 @@ void turn(float fTarget, int maxVoltage, int maxTime) {
  float range = 0.5;
  float absVoltage = abs(maxVoltage);
 
+ float velocity = 4;
+
  clearLCDLines();
  resetEncoders();
- brakeDrive();
+ resetSLEW();
  loopInit(turnLOOP, fTarget+imuDifference);
  timerInit(turnTimed);
 
@@ -44,8 +46,8 @@ void turn(float fTarget, int maxVoltage, int maxTime) {
 
    //  refresh the at time target if error is too large
 	 if(turnLOOP.processVariable < turnLOOP.target + range && turnLOOP.processVariable > turnLOOP.target - range) {
-     if(dlf.get_actual_velocity() > -10 && dlf.get_actual_velocity() < 10
-        && drb.get_actual_velocity() > -10 && drb.get_actual_velocity() < 10) {
+     if(dlf.get_actual_velocity() > -velocity && dlf.get_actual_velocity() < velocity
+        && drb.get_actual_velocity() > -velocity && drb.get_actual_velocity() < velocity) {
        lockDrive();
        driveZero();
        lcd::print(1, "LOOP FINISHED at %5.2lu", turnTimed.timer);

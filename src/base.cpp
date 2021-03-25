@@ -84,7 +84,7 @@ float slewCalculate (float lastVal, float newVal, float accel, float maxVoltage)
     }
     if(lastVal == maxVoltage) {
       out = maxVoltage;
-    }
+    } 
     if(fabs(newVal) < fabs(maxVoltage)) {
         out = newVal;
     }
@@ -186,11 +186,16 @@ float relativeDistanceDiag(float origin, float sensor, bool okay) {
     	float dist = sensor;
 			return dist;
   	} else {
-    return (((getAverageEncoderValues()/216 * WHEEL_CIRCMF)*25.4/sqrt(2)) + origin);
+    return (-((getAverageEncoderValues()/216 * WHEEL_CIRCMF)*25.4/sqrt(2)) + origin);
   	}
   } else {
-    return (((getAverageEncoderValues()/216 * WHEEL_CIRCMF)*25.4/sqrt(2)) + origin);
+    return (-((getAverageEncoderValues()/216 * WHEEL_CIRCMF)*25.4/sqrt(2)) + origin);
   }
+}
+
+void resetSLEW() {
+	driveSLEW.lastValMTR = 0;
+	turnSLEW.lastValMTR = 0;
 }
 
 

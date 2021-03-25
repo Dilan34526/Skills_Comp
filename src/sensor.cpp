@@ -23,8 +23,8 @@ void driveToGoal(float fTarget, int maxVoltage) {
 
 	clearLCDLines();
 	resetEncoders();
+	resetSLEW();
 	loopInit(driveLOOP, fTarget);
-  brakeDrive();
 	loopInit(turnLOOP, target);
 	timerInit(goalTimed);
 
@@ -45,7 +45,9 @@ void driveToGoal(float fTarget, int maxVoltage) {
 
 		 if(fabs(turnLOOP.pidOut) > headingCorrection){
 			 turnLOOP.motorOut = headingCorrection * sign(turnLOOP.pidOut);
-		 }
+		 } else {
+       turnLOOP.motorOut = turnLOOP.pidOut;
+     }
 
 		 if(driveLOOP.processVariable > driveLOOP.target - range) {
 			 achieved = true;
@@ -103,14 +105,17 @@ void driveBack(float fTarget, int maxVoltage) {
 
 	float absVoltage = abs(maxVoltage);
   float range = 0.5;
-	float velocity = 10;
+	float velocity = 4;
   float headingCorrection = 0.2 * maxVoltage;
+
+	driveSLEW.accelRate = signChecker(driveSLEW.accelRate, maxVoltage);
+  turnSLEW.accelRate = signChecker(turnSLEW.accelRate, absVoltage);
 
 	clearLCDLines();
 	resetEncoders();
-	coastDrive();
+	resetSLEW();
 	loopInit(driveLOOP, fTarget);
-  loopInit(turnLOOP, floor(imu.get_rotation()));
+  loopInit(turnLOOP, target);
 	timerInit(backTimed);
 
 	while(!backTimed.atTarget) {
@@ -130,6 +135,8 @@ void driveBack(float fTarget, int maxVoltage) {
 
      if(fabs(turnLOOP.pidOut) > headingCorrection){
       turnLOOP.motorOut = headingCorrection * sign(turnLOOP.pidOut);
+     } else {
+      turnLOOP.motorOut = turnLOOP.pidOut;
      }
 
      //calculate SLEW
@@ -177,16 +184,20 @@ void driveDiag(float fTarget, int maxVoltage) {
 		delay(2);
 	}
 
-  int maxTime = 3000;
+  int maxTime = 5000;
 
 	float absVoltage = abs(maxVoltage);
-  float range = 0.5;
-	float velocity = 10;
-  float headingCorrection = 0.2 * maxVoltage;
+  float range = 10;
+	float velocity = 4;
+  float headingCorrection = 0.2 * absVoltage;
+	float prevPID = -832;
+
+	driveSLEW.accelRate = signChecker(driveSLEW.accelRate, maxVoltage);
+	turnSLEW.accelRate = signChecker(turnSLEW.accelRate, absVoltage);
 
 	clearLCDLines();
 	resetEncoders();
-	coastDrive();
+	resetSLEW();
 	loopInit(driveLOOP, fTarget);
   loopInit(turnLOOP, target);
 	timerInit(diagTimed);
@@ -196,7 +207,7 @@ void driveDiag(float fTarget, int maxVoltage) {
 		 diagTimed.timer = millis() - diagTimed.startTime;
 
 		 float dist = relativeDistanceDiag(origin, diag.get(), good);
-     float enc = ((getAverageEncoderValues()/216 * WHEEL_CIRCMF)*25.4/sqrt(2)) + origin;
+     float enc = (-(getAverageEncoderValues()/216 * WHEEL_CIRCMF)*25.4/sqrt(2)) + origin;
 
 		 //update sensor inputs
 		 driveLOOP.processVariable = (dist + enc)/2;
@@ -208,13 +219,18 @@ void driveDiag(float fTarget, int maxVoltage) {
 
      if(fabs(turnLOOP.pidOut) > headingCorrection){
       turnLOOP.motorOut = headingCorrection * sign(turnLOOP.pidOut);
+     } else {
+      turnLOOP.motorOut = turnLOOP.pidOut;
      }
+
+		 diagVec.prev.push_back(prevPID);
+		 prevPID = driveLOOP.pidOut;
 
      //calculate SLEW
      driveLOOP.motorOut = slewCalculate(driveSLEW.lastValMTR, driveLOOP.pidOut, driveSLEW.accelRate, maxVoltage);
-
-		 driveL(driveLOOP.motorOut, absVoltage);
-		 driveR(driveLOOP.motorOut, absVoltage);
+		 //
+		 driveL(driveLOOP.motorOut + turnLOOP.motorOut, absVoltage);
+		 driveR(driveLOOP.motorOut - turnLOOP.motorOut, absVoltage);
 
      driveSLEW.lastValMTR = driveLOOP.motorOut;
 
@@ -235,15 +251,18 @@ void driveDiag(float fTarget, int maxVoltage) {
 			 diagTimed.atTarget = true;
 		 }
 
-		 lcd::print(0, "PROCESS %f", driveLOOP.processVariable);
-		 lcd::print(1, "MOTOR %f", driveLOOP.motorOut);
-		 lcd::print(2, "TARGET %f", driveLOOP.target);
-		 lcd::print(3, "PID OUT %f", driveLOOP.pidOut);
+		 lcd::print(0, "DIST %f", dist);
+		 lcd::print(1, "ENC %f", enc);
+		 lcd::print(2, "MOTOR %f", driveLOOP.motorOut);
+		 lcd::print(3, "TARGET %f", driveLOOP.target);
+		 lcd::print(4, "PID OUT %f", driveLOOP.pidOut);
 
      diagVec.elapsed.push_back(diagTimed.timer);
      diagVec.process.push_back(driveLOOP.processVariable);
      diagVec.target.push_back(driveLOOP.target);
      diagVec.motor.push_back(driveLOOP.motorOut);
+		 diagVec.pid.push_back(driveLOOP.pidOut);
+		 diagVec.distance.push_back(dist);
 
 		 delay(10);
 	}

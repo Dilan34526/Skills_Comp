@@ -30,5 +30,5 @@ extern LOOP driveLOOP;
 extern void drive(float fTarget, int maxVoltage);
 extern void drive(float fTarget, int maxVoltage, int maxTime);
 extern void drive(float fTarget, int maxVoltage, float distance, int smallVoltage);
-extern void drive(float fTarget, int maxVoltage, float distance, float smallVoltage, int maxTime);
+extern void drive(float fTarget, int maxVoltage, float distance, int smallVoltage, int maxTime);
 #endif
