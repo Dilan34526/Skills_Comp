@@ -4,6 +4,7 @@
 
 extern PID backPID;
 extern PID diagPID;
+extern PID diagPID2;
 extern LOGGER goalVec;
 extern LOGGER backVec;
 extern LOGGER diagVec;

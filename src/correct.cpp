@@ -35,11 +35,46 @@ void goToBall(float heading) {
   }
   if(fabs(heading - angle_absolute) > 3) {
     turn(angle_absolute, 20, 300);
-    drive(dist, 115);
+    drive(dist, 115, 1500);
   } else {
-    pidInit(backPID, 9.5, 0, 0.125, 0, 0);
-    driveBack(by, 115);
+    drive(dist, 125, 1050);
   }
+}
+
+void goToBall(float heading, bool override) {
+  delay(5);
+  float rx = left.get();
+  float ry = back.get();
+
+  while(left.get() > 5000 || left.get() < 100) {
+		rx = left.get();
+    delay(2);
+	}
+
+  while(back.get() > 5000 || back.get() < 100) {
+		ry = left.get();
+    delay(2);
+	}
+
+  float bx = 1070;
+  float by = 1690;
+
+  float x_error  = (bx - rx)/25.4;
+  float y_error =  (by - ry)/25.4;
+
+  float angle_relative = atan(y_error/x_error) * 180/M_PI;
+  float dist = sqrtf((y_error*y_error) + (x_error * x_error));
+
+  float angle_absolute;
+
+  if(bx > rx) {
+    angle_absolute = (heading + 90) - angle_relative;
+  } else if (bx < rx) {
+    angle_absolute = (heading - 90) + fabs(angle_relative);
+  } else {
+    angle_absolute = heading;
+  }
+  drive(dist, 125, 1050);
 }
 
 

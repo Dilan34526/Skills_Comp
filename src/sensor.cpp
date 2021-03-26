@@ -2,6 +2,7 @@
 
 PID backPID;
 PID diagPID;
+PID diagPID2;
 TIMER goalTimed;
 TIMER backTimed;
 TIMER diagTimed;
@@ -184,7 +185,7 @@ void driveDiag(float fTarget, int maxVoltage) {
 		delay(2);
 	}
 
-  int maxTime = 5000;
+  int maxTime = 3500;
 
 	float absVoltage = abs(maxVoltage);
   float range = 10;
@@ -192,78 +193,89 @@ void driveDiag(float fTarget, int maxVoltage) {
   float headingCorrection = 0.2 * absVoltage;
 	float prevPID = -832;
 
-	driveSLEW.accelRate = signChecker(driveSLEW.accelRate, maxVoltage);
-	turnSLEW.accelRate = signChecker(turnSLEW.accelRate, absVoltage);
+  float first = (fTarget - origin)/25.4 * sqrt(2);
 
-	clearLCDLines();
-	resetEncoders();
-	resetSLEW();
-	loopInit(driveLOOP, fTarget);
-  loopInit(turnLOOP, target);
-	timerInit(diagTimed);
+	drive(-first, -100);
 
-	while(!diagTimed.atTarget) {
-		 //Update elapsed time
-		 diagTimed.timer = millis() - diagTimed.startTime;
+	origin = diag.get();
+	float second = (fTarget - origin)/25.4 * sqrt(2);
 
-		 float dist = relativeDistanceDiag(origin, diag.get(), good);
-     float enc = (-(getAverageEncoderValues()/216 * WHEEL_CIRCMF)*25.4/sqrt(2)) + origin;
+	drive(-second, 50, 300);
 
-		 //update sensor inputs
-		 driveLOOP.processVariable = (dist + enc)/2;
-     turnLOOP.processVariable = imu.get_rotation();
+	origin = diag.get();
+	float third = (fTarget - origin)/25.4 * sqrt(2);
 
-		 //update PID calculations
-		 driveLOOP.pidOut = -pidCalculate(diagPID, driveLOOP.target, driveLOOP.processVariable);
-     turnLOOP.pidOut = pidCalculate(headingPID, turnLOOP.target, turnLOOP.processVariable);
+	drive(-third, 50, 300);
 
-     if(fabs(turnLOOP.pidOut) > headingCorrection){
-      turnLOOP.motorOut = headingCorrection * sign(turnLOOP.pidOut);
-     } else {
-      turnLOOP.motorOut = turnLOOP.pidOut;
-     }
 
-		 diagVec.prev.push_back(prevPID);
-		 prevPID = driveLOOP.pidOut;
 
-     //calculate SLEW
-     driveLOOP.motorOut = slewCalculate(driveSLEW.lastValMTR, driveLOOP.pidOut, driveSLEW.accelRate, maxVoltage);
-		 //
-		 driveL(driveLOOP.motorOut + turnLOOP.motorOut, absVoltage);
-		 driveR(driveLOOP.motorOut - turnLOOP.motorOut, absVoltage);
-
-     driveSLEW.lastValMTR = driveLOOP.motorOut;
-
-		 if(driveLOOP.processVariable < driveLOOP.target + range && driveLOOP.processVariable > driveLOOP.target - range) {
-       if(dlf.get_actual_velocity() > -velocity && dlf.get_actual_velocity() < velocity
-          && drb.get_actual_velocity() > -velocity && drb.get_actual_velocity() < velocity) {
-         lockDrive();
-         driveZero();
-         lcd::print(1, "LOOP FINISHED at %5.2lu", diagTimed.timer);
-         diagTimed.atTarget = true;
-       }
-			}
-
-		 //  break out of while loop if the elapsed time of the function is too long
-		 if(diagTimed.timer > maxTime){
-			 lockDrive();
-			 lcd::print(1, "LOOP TIMED OUT at %lu", millis());
-			 diagTimed.atTarget = true;
-		 }
-
-		 lcd::print(0, "DIST %f", dist);
-		 lcd::print(1, "ENC %f", enc);
-		 lcd::print(2, "MOTOR %f", driveLOOP.motorOut);
-		 lcd::print(3, "TARGET %f", driveLOOP.target);
-		 lcd::print(4, "PID OUT %f", driveLOOP.pidOut);
-
-     diagVec.elapsed.push_back(diagTimed.timer);
-     diagVec.process.push_back(driveLOOP.processVariable);
-     diagVec.target.push_back(driveLOOP.target);
-     diagVec.motor.push_back(driveLOOP.motorOut);
-		 diagVec.pid.push_back(driveLOOP.pidOut);
-		 diagVec.distance.push_back(dist);
-
-		 delay(10);
-	}
+	// driveSLEW.accelRate = signChecker(driveSLEW.accelRate, maxVoltage);
+	// turnSLEW.accelRate = signChecker(turnSLEW.accelRate, absVoltage);
+	//
+	// clearLCDLines();
+	// resetEncoders();
+	// resetSLEW();
+	// loopInit(driveLOOP, fTarget);
+  // loopInit(turnLOOP, target);
+	// timerInit(diagTimed);
+	//
+	// while(!diagTimed.atTarget) {
+	// 	 //Update elapsed time
+	// 	 diagTimed.timer = millis() - diagTimed.startTime;
+	//
+	// 	 //update sensor inputs
+	// 	 driveLOOP.processVariable = getAverageEncoderValues();
+  //    turnLOOP.processVariable = imu.get_rotation();
+	//
+	// 	 //update PID calculations
+	// 	 driveLOOP.pidOut = pidCalculate(diagPID, driveLOOP.target, driveLOOP.processVariable);
+  //    turnLOOP.pidOut = pidCalculate(headingPID, turnLOOP.target, turnLOOP.processVariable);
+	//
+  //    if(fabs(turnLOOP.pidOut) > headingCorrection){
+  //     turnLOOP.motorOut = headingCorrection * sign(turnLOOP.pidOut);
+  //    } else {
+  //     turnLOOP.motorOut = turnLOOP.pidOut;
+  //    }
+	//
+	// 	 diagVec.prev.push_back(prevPID);
+	// 	 prevPID = driveLOOP.pidOut;
+	//
+  //    //calculate SLEW
+  //    driveLOOP.motorOut = slewCalculate(driveSLEW.lastValMTR, driveLOOP.pidOut, driveSLEW.accelRate, maxVoltage);
+	// 	 //
+	// 	 driveL(driveLOOP.motorOut + turnLOOP.motorOut, absVoltage);
+	// 	 driveR(driveLOOP.motorOut - turnLOOP.motorOut, absVoltage);
+	//
+  //    driveSLEW.lastValMTR = driveLOOP.motorOut;
+	//
+	// 	 if(driveLOOP.processVariable < driveLOOP.target + range && driveLOOP.processVariable > driveLOOP.target - range) {
+  //      if(dlf.get_actual_velocity() > -velocity && dlf.get_actual_velocity() < velocity
+  //         && drb.get_actual_velocity() > -velocity && drb.get_actual_velocity() < velocity) {
+  //        lockDrive();
+  //        driveZero();
+  //        lcd::print(1, "LOOP FINISHED at %5.2lu", diagTimed.timer);
+  //        diagTimed.atTarget = true;
+  //      }
+	// 		}
+	//
+	// 	 //  break out of while loop if the elapsed time of the function is too long
+	// 	 if(diagTimed.timer > maxTime){
+	// 		 lockDrive();
+	// 		 lcd::print(1, "LOOP TIMED OUT at %lu", millis());
+	// 		 diagTimed.atTarget = true;
+	// 	 }
+	//
+	// 	 lcd::print(2, "MOTOR %f", driveLOOP.motorOut);
+	// 	 lcd::print(3, "TARGET %f", driveLOOP.target);
+	// 	 lcd::print(4, "PID OUT %f", driveLOOP.pidOut);
+	//
+  //    diagVec.elapsed.push_back(diagTimed.timer);
+  //    diagVec.process.push_back(driveLOOP.processVariable);
+  //    diagVec.target.push_back(driveLOOP.target);
+  //    diagVec.motor.push_back(driveLOOP.motorOut);
+	// 	 diagVec.pid.push_back(driveLOOP.pidOut);
+	// 	 diagVec.distance.push_back(driveLOOP.processVariable);
+	//
+	// 	 delay(10);
+	// }
 }

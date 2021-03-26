@@ -63,18 +63,7 @@ void centerShoot(int num) {
   while(!achieved) {
     time = millis() - beginTime;
     if(num == 1) {
-      shooter.mode = SHOT_IN;
-    } else if (num == 2 && many + 1 == count.shotOut && once) {
-      int encoder = shot.get_position();
-      while(shot.get_position() > encoder - 100 || time > 2000) {
-        time = millis() - beginTime;
-        shooter.mode = SHOT_OUT;
-        delay(10);
-      }
-      once = false;
-    } else if (num == 2) {
-      shooter.mode = SHOT_IN;
-      indexer.mode = INDX_IN;
+      shooter.mode = SHOT_SLOW_IN;
     }
     if(many == count.shotOut || time > 1400 * num) {
       achieved = true;
@@ -101,7 +90,8 @@ void shooterTask(void* param){
     		break;
 
       case SHOT_SLOW_IN: {
-        shot.move(90);
+        shot.move(100);
+        break;
       }
 
       case SHOT_MOVE_IN: {

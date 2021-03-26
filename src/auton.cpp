@@ -1,110 +1,117 @@
 #include "main.h"
 
+int time;
+
 void firstGoal() {
-  drive(35.5, 125);
-  turn(-135, 125);
+  drive(35.5, 125, 1650);
+  turn(-135, 125, 850);
   intake.mode = INTK_COAST;
+  pidInit(headingPID, 3, 0, 0, 0, 0);
   driveToGoal(18, 125);
   shoot(1);
   driveDiag(1100, -100);
   pidInit(turnPID, 5, 0, 0.3, 0, 0);
-  turn(0, 125);
+  turn(0, 125, 1150);
   intake.mode = INTK_IN;
-
 }
 
 void secondGoal() {
-  goToBall(0);
-  turn(-90, 125);
-  drive(26, 125);
+  goToBall(0, true);
+  turn(-90, 125, 1000);
+  drive(26, 125, 1050);
   intake.mode = INTK_COAST;
   driveToGoal(5, 110);
   shoot(1);
-  drive(-20, -125);
-  turn(0, 125);
+  drive(-20, -125, 950);
+  turn(0, 125, 950);
   intake.mode = INTK_IN;
 }
 
 void thirdGoal() {
-  drive(50, 125, 36, 80);
-  drive(-3, 50);
-  turn(-90, 125);
-  drive(13, 125);
+  drive(50, 125, 36, 80, 1650);
+  drive(-3, 50, 650);
+  turn(-90, 125, 1000);
+  drive(13, 125, 800);//low
   intake.mode = INTK_COAST;
-  turn(-45, 125);
+  turn(-45, 125, 950);
   driveToGoal(13, 125);
   shoot(1);
   driveDiag(1100, -100);
-  turn(90, 125);
+  turn(90, 125, 1250);
   intake.mode = INTK_IN;
 }
 
 void fourthGoal() {
   goToBall(90);
-  turn(0, 125);
+  turn(0, 125, 1150);
   intake.mode = INTK_COAST;
   driveToGoal(32, 125);
   shoot(1);
   delay(400);
   shoot(1);
-  drive(-6, -100);
-  turn(90, 125);
+  drive(-6, -100, 650);
+  turn(90, 125, 950);
   intake.mode = INTK_IN;
 }
 
 void fifthGoal() {
-  drive(48, 100);
-  turn(45, 125);
+  drive(48, 100, 1650);
+  turn(45, 125, 850);
   intake.mode = INTK_COAST;
   driveToGoal(13, 125);
   shoot(1);
   driveDiag(1100, -100);
-  turn(180, 125);
+  turn(180, 125, 1150);
   intake.mode = INTK_IN;
 }
 
 void sixthGoal() {
-  goToBall(180);
-  turn(90, 125);
-  drive(26, 125);
+  goToBall(180, true);
+  turn(90, 125, 1150);
+  drive(23, 125, 1300);
   intake.mode = INTK_COAST;
   driveToGoal(5, 110);
   shoot(1);
-  drive(-20, -125);
-  turn(180, 125);
+  drive(-20, -125, 1050);
+  turn(180, 125, 950);
   intake.mode = INTK_IN;
 }
 
 void seventhGoal() {
-  drive(50, 125, 36, 80);
-  drive(-3, 50);
-  turn(90, 125);
-  drive(13, 125);
+  pidInit(headingPID, 4.5, 0, 0, 0, 0);
+  drive(50, 125, 36, 80, 1600);
+  pidInit(headingPID, 3, 0, 0, 0, 0);
+  drive(-3, 50, 650);
+  turn(90, 125, 1000);
+  drive(13, 125, 950);
   intake.mode = INTK_COAST;
-  turn(135, 125);
+  turn(135, 125, 950);
   driveToGoal(13, 125);
   shoot(1);
   driveDiag(1100, -100);
-  turn(270, 125);
+  turn(270, 125, 1150);
   intake.mode = INTK_IN;
 }
 
 void eighthGoal() {
-  goToBall(270);
-  drive(2, 50);
-  turn(360, 125);
+  pidInit(headingPID, 4.5, 0, 0, 0, 0);
+  goToBall(270, true);
+  pidInit(headingPID, 0.5, 0, 0, 0, 0);
+  turn(360, 125, 1000);
   intake.mode = INTK_OUT;
-  drive(24, 125);
-
-
-
-  // lastCorrect(0, 1100, 1850);
-  // pidInit(turnPID, 5, 0, 0.3, 0, 0);
-  // turn(0, 115, 1600);
-  // intake.mode = INTK_COAST;
-  // drive(8.5, 110);//prev 7
-  // shoot(2);
-  // drive(-15, 126);
+  bool there = filled[1];
+  pidInit(headingPID, 0, 0, 0, 0, 0);
+  drive(24, 125, 1500);
+  intake.mode = INTK_COAST;
+  float elapsed = millis() - time;
+  if(elapsed < 59000 && there) {
+    centerShoot(1);
+    delay(750);
+    centerShoot(1);
+  } else {
+    centerShoot(1);
+  }
+  drive(-12, -125);
 }
 
 
@@ -114,7 +121,7 @@ void eighthGoal() {
 
 
 void auton(){
-  int time = millis();
+  time = millis();
   int elapsed = 0;
   brakeDrive();
   shooter.mode = SHOT_IN;
@@ -122,23 +129,24 @@ void auton(){
   shooter.mode = SHOT_MOVE_IN;
   intake.mode = INTK_IN;
   indexer.mode = INDX_MOVE_IN;
-  pidInit(headingPID, 3, 0, 0, 0, 0);
+  pidInit(headingPID, 1, 0, 0, 0, 0);
   pidInit(turnPID, 5, 0, 0.25, 0, 0);
   pidInit(drivePID, 1, 0, 0.125, 0, 0);
   pidInit(backPID, 9.5, 0, 0.125, 0, 0);
   pidInit(diagPID, 1, 0, 0.125, 0, 0);
+  pidInit(diagPID2, 1, 0, 0.125, 0, 0);
   slewInit(driveSLEW, 15);
   slewInit(turnSLEW, 15);
 
 
   firstGoal();
-  // secondGoal();
-  // thirdGoal();
-  // fourthGoal();
-  // fifthGoal();
-  // sixthGoal();
-  // seventhGoal();
-  // eighthGoal();
+  secondGoal();
+  thirdGoal();
+  fourthGoal();
+  fifthGoal();
+  sixthGoal();
+  seventhGoal();
+  eighthGoal();
 
 
 
@@ -301,3 +309,10 @@ void auton(){
 
 
 //eighth goal
+// lastCorrect(0, 1100, 1850);
+// pidInit(turnPID, 5, 0, 0.3, 0, 0);
+// turn(0, 115, 1600);
+// intake.mode = INTK_COAST;
+// drive(8.5, 110);//prev 7
+// shoot(2);
+// drive(-15, 126);

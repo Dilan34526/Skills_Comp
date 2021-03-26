@@ -84,11 +84,23 @@ float slewCalculate (float lastVal, float newVal, float accel, float maxVoltage)
     }
     if(lastVal == maxVoltage) {
       out = maxVoltage;
-    } 
+    }
     if(fabs(newVal) < fabs(maxVoltage)) {
         out = newVal;
     }
     return out;
+}
+
+float slewCalculate (float lastVal, float accel, float maxVoltage) {
+  float out = 127;
+	out = lastVal + accel;
+	if(fabs(out) > fabs(maxVoltage) && fabs(lastVal) < fabs(maxVoltage)) {
+			out = maxVoltage;
+	}
+	if(lastVal == maxVoltage) {
+		out = maxVoltage;
+	}
+	return out;
 }
 
 void resetEncoders() {

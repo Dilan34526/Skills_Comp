@@ -94,6 +94,7 @@ extern void timerInit(TIMER&timer);
 * @Prototypes: Feedback and Feedforward Functions
 */
 extern float pidCalculate (PID&pid, float setPoint, float processVariable);
+extern float slewCalculate (float lastVal, float accel, float maxVoltage);
 extern float slewCalculate (float lastVal, float newVal, float accel, float maxVoltage);
 
 /*
