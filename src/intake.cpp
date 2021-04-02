@@ -13,14 +13,13 @@ void initIntake(){
   intake.intaked = false;
 }
 
-void intakeTask(void* param){
+void intakeTask(void * param){
   initIntake();
   while(1){
 
     switch (intake.mode) {
 
       case INTK_IN:
-
         inl.move(intake.maxVol);
         inr.move(intake.maxVol);
   			break;

@@ -12,7 +12,7 @@ LOGGER diagVec;
 
 void driveToGoal(float fTarget, int maxVoltage) {
 
-	fTarget = fTarget/WHEEL_CIRCMF * 360 / 5 * 3;
+	fTarget = fTarget/WHEEL_CIRCMF * 360 * (3/5);
 	float absVoltage = abs(maxVoltage);
   float headingCorrection = 0.15 * absVoltage;
   bool achieved = false;

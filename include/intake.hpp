@@ -23,7 +23,7 @@ extern INTAKE intake;
 *  @state INTK_DO_NOTHING: intake does nothing
 */
 enum intakeModes{
-  INTK_IN,
+  INTK_IN = 0,
   INTK_OUT,
   INTK_COAST,
   INTK_DO_NOTHING,

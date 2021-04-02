@@ -29,14 +29,6 @@ void keys() {
     intake.mode = INTK_COAST;
   }
 }
-
-// bool stop() {
-//   if(((goalLeft.get_hue() > 300 || goalLeft.get_hue() < 75 ) && (goalRight.get_hue() > 300 || goalRight.get_hue() < 75))) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// }
 void driveShoot(int mode) {
  bool achieved = false;
  bool coast = false;

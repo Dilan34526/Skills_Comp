@@ -80,6 +80,10 @@ extern struct LOGGER {
 	std::vector<float> turn;
 	std::vector<float> pid;
 	std::vector<float> accel;
+	std::vector<float> dlf;
+	std::vector<float> dlb;
+	std::vector<float> drf;
+	std::vector<float> drb;
 } LOGGER_t;
 
 /*

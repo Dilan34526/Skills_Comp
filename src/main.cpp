@@ -24,10 +24,10 @@ void on_center_button() {
  */
 void initialize() {
 	delay(500);
-	Task indexer_state(indexerTask, NULL, "");
-	Task intake_state(intakeTask, NULL, "");
-	Task shooter_state(shooterTask, NULL, "");
-	Task count_state(countTask, NULL, "");
+	Task indexer_state(indexerTask);
+	Task intake_state(intakeTask);
+	Task shooter_state(shooterTask);
+	Task count_state(countTask);
 	pros::lcd::initialize();
 	delay(500);
 	imu.reset();
