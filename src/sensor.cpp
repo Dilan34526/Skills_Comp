@@ -1,8 +1,6 @@
 #include "main.h"
 
 PID backPID;
-PID diagPID;
-PID diagPID2;
 TIMER goalTimed;
 TIMER backTimed;
 TIMER diagTimed;

@@ -80,6 +80,10 @@ void controllerInput() {
     indexer.mode = INDX_IN;
     shooter.mode = SHOT_IN;
     pressed = false;
+  } else if(m.get_digital(E_CONTROLLER_DIGITAL_B)) {
+    indexer.mode = INDX_IN;
+    shooter.mode = SHOT_SLOW_IN;
+    pressed = false;
   } else if(m.get_digital(E_CONTROLLER_DIGITAL_L2)) {
     driveShoot(SHOT_IN);
     pressed = false;

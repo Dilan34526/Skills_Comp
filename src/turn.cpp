@@ -70,6 +70,7 @@ void turn(float fTarget, int maxVoltage, int maxTime) {
 
    delay(10);
  }
+ lcd::print(3, "IMU: %f", turnLOOP.processVariable - imuDifference);
 
 }
 

@@ -1,6 +1,7 @@
 #ifndef _DRIVE_H_
 #define _DRIVE_H_
 #include "base.hpp"
+#include <functional>
 
 /*
 * @Prototypes: PID Structures

@@ -6,7 +6,6 @@ void firstGoal() {
   drive(35.5, 125, 1650);
   turn(-135, 125, 850);
   intake.mode = INTK_COAST;
-  pidInit(headingPID, 3, 0, 0, 0, 0);
   driveToGoal(18, 125);
   shoot(1);
   driveDiag(1100, -100);
@@ -128,12 +127,10 @@ void auton(){
   shooter.mode = SHOT_MOVE_IN;
   intake.mode = INTK_IN;
   indexer.mode = INDX_MOVE_IN;
-  pidInit(headingPID, 0, 0, 0, 0, 0);
-  pidInit(turnPID, 4.9, 0, 0.3, 0, 0);
-  pidInit(drivePID, 1, 0, 0, 0, 0);
+  pidInit(headingPID, 3, 0, 0, 0, 0);
+  pidInit(turnPID, 15, 0, 1, 0, 0);
+  pidInit(drivePID, 0.17, 0, 0.01, 0, 0);
   pidInit(backPID, 9.5, 0, 0.02, 0, 0);
-  pidInit(diagPID, 1.67, 0, 0.02, 0, 0);
-  pidInit(diagPID2, 1.67, 0, 0.02, 0, 0);
   slewInit(driveSLEW, 15);
   slewInit(turnSLEW, 15);
 
@@ -148,8 +145,6 @@ void auton(){
   // eighthGoal();
 
   imuDifference = 0;
-
-  drive(48, 125, 100000000);
 
  // drive(35.5, 125, 1650);
  // imuDifference = 0;

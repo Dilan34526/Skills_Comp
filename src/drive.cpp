@@ -123,11 +123,14 @@ void drive(float fTarget, int maxVoltage, int maxTime) {
       turnLOOP.processVariable = imu.get_rotation();
 
       //update PID calculations
-  	  driveLOOP.pidOut = pidCalculate(drivePID, driveLOOP.target, driveLOOP.processVariable);
-      turnLOOP.pidOut = pidCalculate(headingPID, turnLOOP.target, turnLOOP.processVariable);
+  	  driveLOOP.pidOut = pidCalculate(drivePID, driveLOOP.target,
+         driveLOOP.processVariable);
+      turnLOOP.pidOut = pidCalculate(headingPID, turnLOOP.target,
+        turnLOOP.processVariable);
 
       //calculate the SLEW
-      driveLOOP.motorOut = slewCalculate(driveSLEW.lastValMTR, driveLOOP.pidOut, driveSLEW.accelRate, maxVoltage);
+      driveLOOP.motorOut = slewCalculate(driveSLEW.lastValMTR,
+        driveLOOP.pidOut, driveSLEW.accelRate, maxVoltage);
 
       if(headingCorrection < fabs(turnLOOP.pidOut)) {
         turnLOOP.motorOut = headingCorrection * sign(turnLOOP.pidOut);
@@ -135,14 +138,15 @@ void drive(float fTarget, int maxVoltage, int maxTime) {
         turnLOOP.motorOut = turnLOOP.pidOut;
       }
 
-      // driveL(driveLOOP.motorOut + turnLOOP.motorOut, absVoltage);
-      // driveR(driveLOOP.motorOut - turnLOOP.motorOut, absVoltage);
+      driveL(driveLOOP.motorOut + turnLOOP.motorOut, absVoltage);
+      driveR(driveLOOP.motorOut - turnLOOP.motorOut, absVoltage);
 
       driveSLEW.lastValMTR = driveLOOP.motorOut;
 
-			if(driveLOOP.processVariable < driveLOOP.target + range && driveLOOP.processVariable > driveLOOP.target - range) {
-        if(dlf.get_actual_velocity() > -velocity && dlf.get_actual_velocity() < velocity
-           && drb.get_actual_velocity() > -velocity && drb.get_actual_velocity() < velocity) {
+			if(driveLOOP.processVariable < driveLOOP.target + range
+        && driveLOOP.processVariable > driveLOOP.target - range) {
+        if(fabs(dlf.get_actual_velocity()) < fabs(velocity)
+        && fabs(drb.get_actual_velocity()) < fabs(velocity)) {
           lockDrive();
 				  driveZero();
 				  lcd::print(1, "LOOP FINISHED at %5.2lu", timed.timer);
@@ -150,7 +154,7 @@ void drive(float fTarget, int maxVoltage, int maxTime) {
         }
 			 }
 
-      //  break out of while loop if the elapsed time of the function is too long
+      //break out of while loop if the elapsed time of the function is too long
 		  if(timed.timer > maxTime){
         lockDrive();
         lcd::print(1, "LOOP TIMED OUT at %lu", millis());
@@ -174,10 +178,10 @@ void drive(float fTarget, int maxVoltage, int maxTime) {
       // lcd::print(2, "PID OUT %f", turnLOOP.pidOut);
       // lcd::print(3, "MOTOR %f", turnLOOP.motorOut);
       //
-      lcd::print(0, "PROCESS: %f", driveLOOP.processVariable);
-      lcd::print(1, "TARGET %f", driveLOOP.target);
-      lcd::print(2, "PID OUT %f", driveLOOP.pidOut);
-      lcd::print(3, "MOTOR %f", driveLOOP.motorOut);
+      // lcd::print(0, "PROCESS: %f", driveLOOP.processVariable);
+      // lcd::print(1, "TARGET %f", driveLOOP.target);
+      // lcd::print(2, "PID OUT %f", driveLOOP.pidOut);
+      // lcd::print(3, "MOTOR %f", driveLOOP.motorOut);
 
 
 

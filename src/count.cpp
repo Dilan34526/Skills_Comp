@@ -25,6 +25,8 @@ void initCount() {
   shotOpt.set_led_pwm(50);
 }
 
+// bool intkWentDown = true;
+// int intaked = 0;
 void countBalls() {
 
 
@@ -32,14 +34,23 @@ void countBalls() {
     out.wentDownShot = true;
   }
 
-
-
   if(out.wentDownShot) {
     if(empty.get() > out.up) {
       out.wentDownShot = false;
       count.shotOut++;
     }
   }
+
+  // if(inl.get_direction() == 1 && inl.get_actual_velocity() < 175) {
+  //   intkWentDown = true;
+  // }
+  //
+  // if(intkWentDown) {
+  //   if(inl.get_actual_velocity() > 175) {
+  //     intkWentDown = false;
+  //     intaked++;
+  //   }
+  // }
 
   if(line.get_value() < 2850) {
     filled[0] = true;
@@ -75,11 +86,20 @@ void countBalls() {
 void countTask(void* param){
   initCount();
   initOut();
-  int beginTime = millis();
+  float beginTime = millis();
+  // std::vector<int> inlVel;
+  // std::vector<int> inrVel;
+  std::vector<float> elapsed;
+  std::vector<float> dlfVel;
+  std::vector<float> dlfEnc;
   while(true){
 
 
     countBalls();
+
+
+    // inlVel.push_back(inl.get_actual_velocity());
+    // inrVel.push_back(inr.get_actual_velocity());
 
     delay(10);
   }
