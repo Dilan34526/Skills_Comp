@@ -5,7 +5,8 @@ int time;
 void firstGoal() {
   drive(36, 125, 1750);
   turn(-135, 125, 850);
-  driveToGoal(18, 125);
+  driveToGoal(10, 125, 80);
+  delay(150);
   shoot(1);
   intake.mode = INTK_COAST;
   driveDiag(1100, -100);
@@ -14,36 +15,44 @@ void firstGoal() {
 }
 
 void secondGoal() {
-  goToBall(0, true);
+  goToBall(0);
   turn(-90, 125, 1000);
   drive(26, 125, 1050);
-  intake.mode = INTK_COAST;
-  driveToGoal(5, 110);
+  driveToGoal(10, 125, 95);
+  delay(125);
   shoot(1);
+  intake.mode = INTK_COAST;
   drive(-20, -125, 950);
+  indexer.mode = INDX_OUT;
+  intake.mode = INTK_OUT;
+  delay(150);
+  indexer.mode = INDX_MOVE_IN;
   turn(0, 125, 950);
   intake.mode = INTK_IN;
 }
 
 void thirdGoal() {
+  pidInit(headingPID, 4.5, 0, 0, 0, 0);
   drive(50, 125, 36, 80, 1650);
   drive(-3, 50, 650);
   turn(-90, 125, 1000);
   drive(13, 125, 800);
   intake.mode = INTK_COAST;
   turn(-45, 125, 950);
-  driveToGoal(13, 125);
+  driveToGoal(10, 125, 80);
+  delay(150);
   shoot(1);
+  intake.mode = INTK_COAST;
   driveDiag(1100, -100);
   turn(90, 125, 1250);
   intake.mode = INTK_IN;
 }
 
 void fourthGoal() {
-  goToBall(90);
+  goToBall(90, true);
   turn(0, 125, 1150);
   intake.mode = INTK_COAST;
-  driveToGoal(32, 125);
+  driveToGoal(32, 125, 80);
   shoot(1);
   delay(400);
   shoot(1);
@@ -55,9 +64,10 @@ void fourthGoal() {
 void fifthGoal() {
   drive(48, 100, 1650);
   turn(45, 125, 850);
-  intake.mode = INTK_COAST;
-  driveToGoal(13, 125);
+  driveToGoal(10, 125, 80);
+  delay(150);
   shoot(1);
+  intake.mode = INTK_COAST;
   driveDiag(1100, -100);
   turn(180, 125, 1150);
   intake.mode = INTK_IN;
@@ -67,10 +77,15 @@ void sixthGoal() {
   goToBall(180, true);
   turn(90, 125, 1150);
   drive(23, 125, 1300);
-  intake.mode = INTK_COAST;
-  driveToGoal(5, 110);
+  driveToGoal(10, 125, 95);
+  delay(125);
   shoot(1);
-  drive(-20, -125, 1050);
+  intake.mode = INTK_COAST;
+  drive(-20, -125, 950);
+  indexer.mode = INDX_OUT;
+  intake.mode = INTK_OUT;
+  delay(150);
+  indexer.mode = INDX_MOVE_IN;
   turn(180, 125, 950);
   intake.mode = INTK_IN;
 }
@@ -78,14 +93,15 @@ void sixthGoal() {
 void seventhGoal() {
   pidInit(headingPID, 4.5, 0, 0, 0, 0);
   drive(50, 125, 36, 80, 1600);
-  pidInit(headingPID, 3, 0, 0, 0, 0);
   drive(-3, 50, 650);
   turn(90, 125, 1000);
   drive(13, 125, 950);
   intake.mode = INTK_COAST;
   turn(135, 125, 950);
-  driveToGoal(13, 125);
+  driveToGoal(10, 125, 80);
+  delay(150);
   shoot(1);
+  intake.mode = INTK_COAST;
   driveDiag(1100, -100);
   turn(270, 125, 1150);
   intake.mode = INTK_IN;
@@ -136,52 +152,36 @@ void auton(){
 
 
   firstGoal();
-  // secondGoal();
-  // thirdGoal();
-  // fourthGoal();
-  // fifthGoal();
-  // sixthGoal();
-  // seventhGoal();
-  // eighthGoal();
-
-  // imuDifference = 0;
-
-  // drive(96, 125);
+  secondGoal();
+  thirdGoal();
+  fourthGoal();
+  fifthGoal();
+  sixthGoal();
+  seventhGoal();
+  eighthGoal();
 
 
-
-
-
-
-  // delay(500);
-  // drive(-5, 85);
-  // turn(75, 100, 400);
-  // drive(5, 85);
-  // centerShoot(1);
-  // drive(-20, 126);
 
   // clearLCDLines();
   elapsed = millis() - time;
   lcd::print(7, "Elapsed %d", elapsed);
 
-  //{"PID", driveVec.pid}, {"Accel", driveVec.accel},
-
-  std::vector<std::pair<std::string, std::vector<float>>> drive
-  = {{"Elapsed", driveVec.elapsed}, {"Process", driveVec.process},  {"Target", driveVec.target}, {"Motor", driveVec.motor},  {"PID", driveVec.pid}, {"Turn", driveVec.turn},
-     {"DLF", driveVec.dlf}, {"DLB", driveVec.dlb}, {"DRF", driveVec.drf}, {"DRB", driveVec.drb}};
-  write_csv("/usd/Drive.csv", drive);
-
-  std::vector<std::pair<std::string, std::vector<float>>> goal
-  = {{"Elapsed", goalVec.elapsed}, {"Process", goalVec.process}, {"Target", goalVec.target}, {"Motor", goalVec.motor}};
-  write_csv("/usd/Goal.csv", goal);
-
-  std::vector<std::pair<std::string, std::vector<float>>> turn
-  = {{"Elapsed", turnVec.elapsed}, {"Encoder", turnVec.process}, {"Target", turnVec.target}, {"Motor", turnVec.motor}};
-  write_csv("/usd/Turn.csv", turn);
-
-  std::vector<std::pair<std::string, std::vector<float>>> diag
-  = {{"Elapsed", diagVec.elapsed}, {"Dist", diagVec.distance}, {"Process", diagVec.process}, {"Target", diagVec.target}, {"Motor", diagVec.motor}, {"PID", diagVec.pid}};
-  write_csv("/usd/Diag.csv", diag);
+  // std::vector<std::pair<std::string, std::vector<float>>> drive
+  // = {{"Elapsed", driveVec.elapsed}, {"Process", driveVec.process},  {"Target", driveVec.target}, {"Motor", driveVec.motor},  {"PID", driveVec.pid}, {"Turn", driveVec.turn},
+  //    {"DLF", driveVec.dlf}, {"DLB", driveVec.dlb}, {"DRF", driveVec.drf}, {"DRB", driveVec.drb}};
+  // write_csv("/usd/Drive.csv", drive);
+  //
+  // std::vector<std::pair<std::string, std::vector<float>>> goal
+  // = {{"Elapsed", goalVec.elapsed}, {"Process", goalVec.process}, {"Target", goalVec.target}, {"Motor", goalVec.motor}};
+  // write_csv("/usd/Goal.csv", goal);
+  //
+  // std::vector<std::pair<std::string, std::vector<float>>> turn
+  // = {{"Elapsed", turnVec.elapsed}, {"Encoder", turnVec.process}, {"Target", turnVec.target}, {"Motor", turnVec.motor}};
+  // write_csv("/usd/Turn.csv", turn);
+  //
+  // std::vector<std::pair<std::string, std::vector<float>>> diag
+  // = {{"Elapsed", diagVec.elapsed}, {"Dist", diagVec.distance}, {"Process", diagVec.process}, {"Target", diagVec.target}, {"Motor", diagVec.motor}, {"PID", diagVec.pid}};
+  // write_csv("/usd/Diag.csv", diag);
 }
 
 //first goal

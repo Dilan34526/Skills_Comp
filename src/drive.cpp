@@ -59,9 +59,10 @@ void drive(float fTarget, int maxVoltage, float distance, int smallVoltage, int 
 
     driveSLEW.lastValMTR = driveLOOP.motorOut;
 
-    if(driveLOOP.processVariable < driveLOOP.target + range && driveLOOP.processVariable > driveLOOP.target - range) {
-      if(dlf.get_actual_velocity() > -velocity && dlf.get_actual_velocity() < velocity
-         && drb.get_actual_velocity() > -velocity && drb.get_actual_velocity() < velocity) {
+    if(driveLOOP.processVariable < driveLOOP.target + range
+      && driveLOOP.processVariable > driveLOOP.target - range) {
+        if(fabs(dlf.get_actual_velocity()) < fabs(velocity)
+        && fabs(drb.get_actual_velocity()) < fabs(velocity)) {
         lockDrive();
         driveZero();
         lcd::print(1, "LOOP FINISHED at %5.2lu", timed.timer);
@@ -76,13 +77,13 @@ void drive(float fTarget, int maxVoltage, float distance, int smallVoltage, int 
       timed.atTarget = true;
     }
 
-    driveVec.elapsed.push_back(timed.timer);
-    driveVec.process.push_back(driveLOOP.processVariable);
-    driveVec.target.push_back(driveLOOP.target);
-    driveVec.pid.push_back(driveLOOP.pidOut);
-    driveVec.motor.push_back(driveLOOP.motorOut);
-    driveVec.accel.push_back(driveSLEW.accelRate);
-    driveVec.turn.push_back(turnLOOP.motorOut);
+    // driveVec.elapsed.push_back(timed.timer);
+    // driveVec.process.push_back(driveLOOP.processVariable);
+    // driveVec.target.push_back(driveLOOP.target);
+    // driveVec.pid.push_back(driveLOOP.pidOut);
+    // driveVec.motor.push_back(driveLOOP.motorOut);
+    // driveVec.accel.push_back(driveSLEW.accelRate);
+    // driveVec.turn.push_back(turnLOOP.motorOut);
 
 
     delay(10);
@@ -161,17 +162,17 @@ void drive(float fTarget, int maxVoltage, int maxTime) {
 			  timed.atTarget = true;
 		  }
 
-      driveVec.elapsed.push_back(timed.timer);
-      driveVec.process.push_back(driveLOOP.processVariable);
-      driveVec.dlf.push_back(dlf.get_position());
-      driveVec.dlb.push_back(dlb.get_position());
-      driveVec.drf.push_back(drf.get_position());
-      driveVec.drb.push_back(drb.get_position());
-      driveVec.target.push_back(driveLOOP.target);
-      driveVec.motor.push_back(driveLOOP.motorOut);
-      driveVec.pid.push_back(driveLOOP.pidOut);
-      driveVec.turn.push_back(turnLOOP.pidOut);
-      
+      // driveVec.elapsed.push_back(timed.timer);
+      // driveVec.process.push_back(driveLOOP.processVariable);
+      // driveVec.dlf.push_back(dlf.get_position());
+      // driveVec.dlb.push_back(dlb.get_position());
+      // driveVec.drf.push_back(drf.get_position());
+      // driveVec.drb.push_back(drb.get_position());
+      // driveVec.target.push_back(driveLOOP.target);
+      // driveVec.motor.push_back(driveLOOP.motorOut);
+      // driveVec.pid.push_back(driveLOOP.pidOut);
+      // driveVec.turn.push_back(turnLOOP.pidOut);
+
       lcd::print(0, "PROCESS: %f", driveLOOP.processVariable);
       lcd::print(1, "TARGET %f", driveLOOP.target);
       lcd::print(2, "PID OUT %f", driveLOOP.pidOut);

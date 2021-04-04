@@ -6,6 +6,6 @@ extern PID backPID;
 extern LOGGER goalVec;
 extern LOGGER backVec;
 extern LOGGER diagVec;
-extern void driveToGoal(float fTarget, int maxVoltage);
+extern void driveToGoal(float fTarget, int maxVoltage, int smallVoltage);
 extern void driveDiag(float fTarget, int maxVoltage);
 #endif
