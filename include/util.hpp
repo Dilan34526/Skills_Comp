@@ -29,6 +29,13 @@ extern void clearLCDLines();
 extern float sign(float input);
 
 /*
+* @func: Corrects the sign of a number to a number of a different sign
+*   @param: The input number
+*   @param: The same sign number
+*/
+extern float signChecker(float input, float sameSign);
+
+/*
 * @func: Limits the input to a max number
 *   @float: The input number
 *   @float: The maximum number

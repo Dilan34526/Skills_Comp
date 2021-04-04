@@ -24,6 +24,12 @@ float sign(float input){
   return output;
 }
 
+float signChecker(float input, float sameSign) {
+	if(sign(sameSign) != sign(input)) {
+	  input = -1 * input;
+	}
+	return input;
+}
 
 float limit(float input, float max) {
   // limit the number to a maximum value

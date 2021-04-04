@@ -119,9 +119,12 @@ extern float relativeDistanceDiag(float origin, float sensor, bool okay);
 * @Prototypes: Motor Specific Functions
 */
 extern void resetEncoders();
-extern float getAverageEncoderValues();
-extern float signChecker(float input, float sameSign);
 extern void resetSLEW();
+extern float getAverageEncoderValues();
+
+/*
+* @Prototypes: Drive Left and Right Side
+*/
 extern void driveL(float input, unsigned int maxVoltage);
 extern void driveR(float input, unsigned int maxVoltage);
 #endif

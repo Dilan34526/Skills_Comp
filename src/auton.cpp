@@ -3,11 +3,11 @@
 int time;
 
 void firstGoal() {
-  drive(35.5, 125, 1650);
+  drive(36, 125, 1750);
   turn(-135, 125, 850);
-  intake.mode = INTK_COAST;
   driveToGoal(18, 125);
   shoot(1);
+  intake.mode = INTK_COAST;
   driveDiag(1100, -100);
   turn(0, 125, 1150);
   intake.mode = INTK_IN;
@@ -29,7 +29,7 @@ void thirdGoal() {
   drive(50, 125, 36, 80, 1650);
   drive(-3, 50, 650);
   turn(-90, 125, 1000);
-  drive(13, 125, 800);//low
+  drive(13, 125, 800);
   intake.mode = INTK_COAST;
   turn(-45, 125, 950);
   driveToGoal(13, 125);
@@ -129,13 +129,13 @@ void auton(){
   indexer.mode = INDX_MOVE_IN;
   pidInit(headingPID, 3, 0, 0, 0, 0);
   pidInit(turnPID, 15, 0, 1, 0, 0);
-  pidInit(drivePID, 0.17, 0, 0.01, 0, 0);
+  pidInit(drivePID, 0.178, 0, 0.01, 0, 0);
   pidInit(backPID, 9.5, 0, 0.02, 0, 0);
   slewInit(driveSLEW, 15);
   slewInit(turnSLEW, 15);
 
 
-  // firstGoal();
+  firstGoal();
   // secondGoal();
   // thirdGoal();
   // fourthGoal();
@@ -144,11 +144,9 @@ void auton(){
   // seventhGoal();
   // eighthGoal();
 
-  imuDifference = 0;
+  // imuDifference = 0;
 
- // drive(35.5, 125, 1650);
- // imuDifference = 0;
- // turn(90, 125);
+  // drive(96, 125);
 
 
 
@@ -182,7 +180,7 @@ void auton(){
   write_csv("/usd/Turn.csv", turn);
 
   std::vector<std::pair<std::string, std::vector<float>>> diag
-  = {{"Elapsed", diagVec.elapsed}, {"Dist", diagVec.distance}, {"Process", diagVec.process}, {"Target", diagVec.target}, {"Motor", diagVec.motor}, {"PID", diagVec.pid}, {"Prev PID", diagVec.prev}};
+  = {{"Elapsed", diagVec.elapsed}, {"Dist", diagVec.distance}, {"Process", diagVec.process}, {"Target", diagVec.target}, {"Motor", diagVec.motor}, {"PID", diagVec.pid}};
   write_csv("/usd/Diag.csv", diag);
 }
 

@@ -9,8 +9,8 @@ LOGGER driveVec;
 
 
 void drive(float fTarget, int maxVoltage, float distance, int smallVoltage, int maxTime) {
-  fTarget = fTarget/WHEEL_CIRCMF * 360 * (5/3);
-  distance = distance/WHEEL_CIRCMF * 360 * (3/5);
+  fTarget = fTarget/WHEEL_CIRCMF * 360 * 5/3;
+  distance = distance/WHEEL_CIRCMF * 360 * 5/3;
   int absVoltage = abs(maxVoltage);
 
   float range = 10;
@@ -161,27 +161,21 @@ void drive(float fTarget, int maxVoltage, int maxTime) {
 			  timed.atTarget = true;
 		  }
 
-      // driveVec.elapsed.push_back(timed.timer);
-      // driveVec.process.push_back(driveLOOP.processVariable);
-      // driveVec.dlf.push_back(dlf.get_position());
-      // driveVec.dlb.push_back(dlb.get_position());
-      // driveVec.drf.push_back(drf.get_position());
-      // driveVec.drb.push_back(drb.get_position());
-      // driveVec.target.push_back(driveLOOP.target);
-      // driveVec.motor.push_back(driveLOOP.motorOut);
-      // driveVec.pid.push_back(driveLOOP.pidOut);
-      // driveVec.turn.push_back(turnLOOP.pidOut);
-      //
-      //
-      // lcd::print(0, "PROCESS: %f", turnLOOP.processVariable);
-      // lcd::print(1, "TARGET %f", turnLOOP.target);
-      // lcd::print(2, "PID OUT %f", turnLOOP.pidOut);
-      // lcd::print(3, "MOTOR %f", turnLOOP.motorOut);
-      //
-      // lcd::print(0, "PROCESS: %f", driveLOOP.processVariable);
-      // lcd::print(1, "TARGET %f", driveLOOP.target);
-      // lcd::print(2, "PID OUT %f", driveLOOP.pidOut);
-      // lcd::print(3, "MOTOR %f", driveLOOP.motorOut);
+      driveVec.elapsed.push_back(timed.timer);
+      driveVec.process.push_back(driveLOOP.processVariable);
+      driveVec.dlf.push_back(dlf.get_position());
+      driveVec.dlb.push_back(dlb.get_position());
+      driveVec.drf.push_back(drf.get_position());
+      driveVec.drb.push_back(drb.get_position());
+      driveVec.target.push_back(driveLOOP.target);
+      driveVec.motor.push_back(driveLOOP.motorOut);
+      driveVec.pid.push_back(driveLOOP.pidOut);
+      driveVec.turn.push_back(turnLOOP.pidOut);
+      
+      lcd::print(0, "PROCESS: %f", driveLOOP.processVariable);
+      lcd::print(1, "TARGET %f", driveLOOP.target);
+      lcd::print(2, "PID OUT %f", driveLOOP.pidOut);
+      lcd::print(3, "MOTOR %f", driveLOOP.motorOut);
 
 
 

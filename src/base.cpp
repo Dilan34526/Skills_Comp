@@ -211,9 +211,13 @@ void resetSLEW() {
 }
 
 
-float signChecker(float input, float sameSign) {
-	if(sign(sameSign) != sign(input)) {
-	  input = -1 * input;
-	}
-	return input;
+void outtake() {
+	intake.mode = INTK_OUT;
+	indexer.mode = INDX_OUT;
+	shooter.mode = SHOT_OUT;
+}
+
+void moveIn() {
+	indexer.mode = INDX_MOVE_IN;
+	shooter.mode = SHOT_MOVE_IN;
 }
