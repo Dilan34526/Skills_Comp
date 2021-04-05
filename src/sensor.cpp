@@ -161,13 +161,29 @@ void driveDiag(float fTarget, int maxVoltage) {
 		 }
 
 		 if(outtake) {
-			 if(fabs(driveLOOP.processVariable) > (fabs(driveLOOP.target) * 0.25)) {
+			 if(fabs(driveLOOP.processVariable) > (fabs(driveLOOP.target) * 0.35)) {
 				 intake.mode = INTK_OUT;
 				 indexer.mode = INDX_OUT;
 				 shooter.mode = SHOT_OUT;
 				 outtake = false;
 			 }
 		 }
+
+		 if(color[0] == "R") {
+			shooter.mode = SHOT_DO_NOTHING;
+			shot.set_brake_mode(E_MOTOR_BRAKE_HOLD);
+			shot.move_velocity(0);
+		} else if(!outtake) {
+			shooter.mode = SHOT_OUT;
+		}
+
+		 if(color[1] == "R") {
+			indexer.mode = INDX_DO_NOTHING;
+ 			indx.set_brake_mode(E_MOTOR_BRAKE_HOLD);
+ 			indx.move_velocity(0);
+		} else if(!outtake) {
+			indexer.mode = INDX_OUT;
+		}
 
      //calculate SLEW
      driveLOOP.motorOut = slewCalculate(driveSLEW.lastValMTR, driveLOOP.pidOut, driveSLEW.accelRate, maxVoltage);
@@ -210,6 +226,7 @@ void driveDiag(float fTarget, int maxVoltage) {
 	intake.mode = INTK_COAST;
 	shooter.mode = SHOT_MOVE_IN;
 	indexer.mode = INDX_MOVE_IN;
+	indx.set_brake_mode(E_MOTOR_BRAKE_COAST);
 	delay(10);
 	origin = diag.get();
 	float first = (fTarget - origin)/25.4 * sqrt(2);

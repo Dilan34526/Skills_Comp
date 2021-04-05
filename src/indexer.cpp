@@ -48,6 +48,14 @@ void indexerTask(void* param){
         break;
       }
 
+      case INDX_BLUE: {
+        if(!filled[1]) {
+          indx.move(100);
+        } else {
+          indx.move_velocity(0);
+        }
+      }
+
 
       case INDX_COAST: {
         indx.move(0);

@@ -87,19 +87,16 @@ void countTask(void* param){
   initCount();
   initOut();
   float beginTime = millis();
-  // std::vector<int> inlVel;
-  // std::vector<int> inrVel;
   std::vector<float> elapsed;
-  std::vector<float> dlfVel;
-  std::vector<float> dlfEnc;
+  std::vector<float> inlVel;
+  std::vector<float> inrVel;
+  std::vector<float> inlCur;
+  std::vector<float> inrCur;
+
   while(true){
 
 
     countBalls();
-
-
-    // inlVel.push_back(inl.get_actual_velocity());
-    // inrVel.push_back(inr.get_actual_velocity());
 
     delay(10);
   }

@@ -16,6 +16,8 @@ extern OUT out;
 // cross check running sums
 extern struct COUNT {
   int shotOut;
+  int intaked;
+  int outtaked;
 } COUNT_t;
 extern COUNT count;
 

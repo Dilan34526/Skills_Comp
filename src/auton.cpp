@@ -5,9 +5,13 @@ int time;
 void firstGoal() {
   drive(36, 125, 1750);
   turn(-135, 125, 850);
+  indexer.mode = INDX_BLUE;
   driveToGoal(10, 125, 80);
-  delay(150);
+  indexer.mode = INDX_DO_NOTHING;
+  indx.move_relative(360, 200);
   shoot(1);
+  indexer.mode = INDX_MOVE_IN;
+  delay(180);
   intake.mode = INTK_COAST;
   driveDiag(1100, -100);
   turn(0, 125, 1150);
@@ -18,15 +22,10 @@ void secondGoal() {
   goToBall(0);
   turn(-90, 125, 1000);
   drive(26, 125, 1050);
-  driveToGoal(10, 125, 95);
-  delay(125);
-  shoot(1);
   intake.mode = INTK_COAST;
+  driveToGoal(10, 125, 95);
+  shoot(1);
   drive(-20, -125, 950);
-  indexer.mode = INDX_OUT;
-  intake.mode = INTK_OUT;
-  delay(150);
-  indexer.mode = INDX_MOVE_IN;
   turn(0, 125, 950);
   intake.mode = INTK_IN;
 }
@@ -34,14 +33,18 @@ void secondGoal() {
 void thirdGoal() {
   pidInit(headingPID, 4.5, 0, 0, 0, 0);
   drive(50, 125, 36, 80, 1650);
+  pidInit(headingPID, 3, 0, 0, 0, 0);
   drive(-3, 50, 650);
   turn(-90, 125, 1000);
-  drive(13, 125, 800);
-  intake.mode = INTK_COAST;
+  drive(16, 125, 900);
   turn(-45, 125, 950);
+  indexer.mode = INDX_BLUE;
   driveToGoal(10, 125, 80);
-  delay(150);
+  indexer.mode = INDX_DO_NOTHING;
+  indx.move_relative(360, 200);
   shoot(1);
+  indexer.mode = INDX_MOVE_IN;
+  delay(180);
   intake.mode = INTK_COAST;
   driveDiag(1100, -100);
   turn(90, 125, 1250);
@@ -62,11 +65,15 @@ void fourthGoal() {
 }
 
 void fifthGoal() {
-  drive(48, 100, 1650);
+  drive(46, 100, 1650);
   turn(45, 125, 850);
+  indexer.mode = INDX_BLUE;
   driveToGoal(10, 125, 80);
-  delay(150);
+  indexer.mode = INDX_DO_NOTHING;
+  indx.move_relative(360, 200);
   shoot(1);
+  indexer.mode = INDX_MOVE_IN;
+  delay(180);
   intake.mode = INTK_COAST;
   driveDiag(1100, -100);
   turn(180, 125, 1150);
@@ -77,15 +84,10 @@ void sixthGoal() {
   goToBall(180, true);
   turn(90, 125, 1150);
   drive(23, 125, 1300);
-  driveToGoal(10, 125, 95);
-  delay(125);
-  shoot(1);
   intake.mode = INTK_COAST;
+  driveToGoal(10, 125, 95);
+  shoot(1);
   drive(-20, -125, 950);
-  indexer.mode = INDX_OUT;
-  intake.mode = INTK_OUT;
-  delay(150);
-  indexer.mode = INDX_MOVE_IN;
   turn(180, 125, 950);
   intake.mode = INTK_IN;
 }
@@ -93,14 +95,18 @@ void sixthGoal() {
 void seventhGoal() {
   pidInit(headingPID, 4.5, 0, 0, 0, 0);
   drive(50, 125, 36, 80, 1600);
+  pidInit(headingPID, 3, 0, 0, 0, 0);
   drive(-3, 50, 650);
   turn(90, 125, 1000);
-  drive(13, 125, 950);
-  intake.mode = INTK_COAST;
+  drive(16, 125, 1500);
   turn(135, 125, 950);
+  indexer.mode = INDX_BLUE;
   driveToGoal(10, 125, 80);
-  delay(150);
+  indexer.mode = INDX_DO_NOTHING;
+  indx.move_relative(360, 200);
   shoot(1);
+  indexer.mode = INDX_MOVE_IN;
+  delay(180);
   intake.mode = INTK_COAST;
   driveDiag(1100, -100);
   turn(270, 125, 1150);
@@ -111,12 +117,15 @@ void eighthGoal() {
   pidInit(headingPID, 4.5, 0, 0, 0, 0);
   goToBall(270, true);
   pidInit(headingPID, 0.5, 0, 0, 0, 0);
+  drive(-3, 50, 500);
   turn(360, 125, 1000);
   intake.mode = INTK_OUT;
   bool there = filled[1];
   pidInit(headingPID, 0, 0, 0, 0, 0);
-  drive(24, 125, 1500);
+  drive(21, 125, 1500);
+  //pidInit(headingPID, 4.5, 0, 0, 0, 0);
   intake.mode = INTK_COAST;
+  /*
   float elapsed = millis() - time;
   if(elapsed < 59000 && there) {
     centerShoot(1);
@@ -125,7 +134,11 @@ void eighthGoal() {
   } else {
     centerShoot(1);
   }
-  drive(-12, -125);
+  */
+  drive(-12, -125, 1000);
+  intake.mode = INTK_OUT;
+  drive(11, 120);
+  centerShoot(1);
 }
 
 
@@ -144,21 +157,37 @@ void auton(){
   intake.mode = INTK_IN;
   indexer.mode = INDX_MOVE_IN;
   pidInit(headingPID, 3, 0, 0, 0, 0);
-  pidInit(turnPID, 15, 0, 1, 0, 0);
+  pidInit(turnPID, 15, 0, 0.95, 0, 0);
   pidInit(drivePID, 0.178, 0, 0.01, 0, 0);
   pidInit(backPID, 9.5, 0, 0.02, 0, 0);
   slewInit(driveSLEW, 15);
   slewInit(turnSLEW, 15);
 
 
-  firstGoal();
-  secondGoal();
-  thirdGoal();
-  fourthGoal();
-  fifthGoal();
-  sixthGoal();
-  seventhGoal();
-  eighthGoal();
+  // firstGoal();
+  // secondGoal();
+  // thirdGoal();
+  // fourthGoal();
+  // fifthGoal();
+  // sixthGoal();
+  // seventhGoal();
+  // eighthGoal();
+
+  imuDifference = 0;
+
+  // pidInit(headingPID, 4.5, 0, 0, 0, 0);
+  // goToBall(0, true);
+  // pidInit(headingPID, 0.5, 0, 0, 0, 0);
+  // drive(-3, 50, 500);
+  // turn(90, 125, 1000);
+  intake.mode = INTK_OUT;
+  pidInit(headingPID, 0, 0, 0, 0, 0);
+  drive(21, 125, 1500);
+  intake.mode = INTK_COAST;
+  drive(-12, -125, 1000);
+  intake.mode = INTK_OUT;
+  drive(11, 120);
+  centerShoot(1);
 
 
 

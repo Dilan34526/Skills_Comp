@@ -26,6 +26,7 @@ enum indexerModes{
   INDX_OUT,
   INDX_MOVE_IN,
   INDX_MOVE_OUT,
+  INDX_BLUE,
   INDX_COAST,
   INDX_DO_NOTHING,
 };

@@ -93,6 +93,7 @@ extern Imu imu;
 extern Distance down;
 extern Distance left;
 extern Distance back;
+extern Distance empty;
 extern Distance diag;
 extern Optical indxOpt;
 
