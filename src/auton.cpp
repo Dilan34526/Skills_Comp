@@ -180,14 +180,14 @@ void auton(){
   // pidInit(headingPID, 0.5, 0, 0, 0, 0);
   // drive(-3, 50, 500);
   // turn(90, 125, 1000);
-  intake.mode = INTK_OUT;
-  pidInit(headingPID, 0, 0, 0, 0, 0);
-  drive(21, 125, 1500);
-  intake.mode = INTK_COAST;
-  drive(-12, -125, 1000);
-  intake.mode = INTK_OUT;
-  drive(11, 120);
-  centerShoot(1);
+  // intake.mode = INTK_OUT;
+  // pidInit(headingPID, 0, 0, 0, 0, 0);
+  // drive(21, 125, 1500);
+  // intake.mode = INTK_COAST;
+  // drive(-12, -125, 1000);
+  // intake.mode = INTK_OUT;
+  // drive(11, 120);
+  // centerShoot(1);
 
 
 
