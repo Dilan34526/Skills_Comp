@@ -29,11 +29,14 @@ enum shooterModes{
   SHOT_MOVE_IN,
   SHOT_MOVE_OUT,
   SHOT_COAST,
+  SHOT_PREP,
   SHOT_DO_NOTHING,
 };
 
-extern void shoot(int num);
-extern void centerShoot(int num);
+extern void shootOne();
+extern void shootTwo();
+extern void centerShootOne();
+extern void CenterShootWithIndexer();
 
 /*
 * @task: State Machine for Shooter Motor

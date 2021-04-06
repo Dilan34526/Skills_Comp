@@ -16,9 +16,6 @@ void drive(float fTarget, int maxVoltage, float distance, int smallVoltage, int 
   float range = 10;
   float velocity = 4;
 
-  driveSLEW.accelRate = signChecker(driveSLEW.accelRate, fTarget);
-  maxVoltage = signChecker(maxVoltage, fTarget);
-
   float headingCorrection = 0.2 * absVoltage;
 
   clearLCDLines();
@@ -102,9 +99,6 @@ void drive(float fTarget, int maxVoltage, int maxTime) {
    float velocity = 4;
    float absVoltage = abs(maxVoltage);
 
-   driveSLEW.accelRate = signChecker(driveSLEW.accelRate, fTarget);
-   maxVoltage = signChecker(maxVoltage, fTarget);
-
    float headingCorrection = 0.2 * absVoltage;
 
    clearLCDLines();
@@ -128,6 +122,9 @@ void drive(float fTarget, int maxVoltage, int maxTime) {
          driveLOOP.processVariable);
       turnLOOP.pidOut = pidCalculate(headingPID, turnLOOP.target,
         turnLOOP.processVariable);
+
+      driveSLEW.accelRate = signChecker(driveSLEW.accelRate, fTarget);
+      maxVoltage = signChecker(maxVoltage, fTarget);
 
       //calculate the SLEW
       driveLOOP.motorOut = slewCalculate(driveSLEW.lastValMTR,

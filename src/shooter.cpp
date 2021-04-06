@@ -14,35 +14,19 @@ void initShooter(){
   shooter.shoot = false;
 }
 
-void shoot(int num) {
+void shootOne() {
   bool achieved = false;
   bool once = true;
   indexer.mode = INDX_DO_NOTHING;
   shooter.mode = SHOT_DO_NOTHING;
   int many = count.shotOut;
-  many = many + num;
+  many = many + 1;
   int beginTime = millis();
   int time = 0;
   while(!achieved) {
     time = millis() - beginTime;
-    if(num == 1) {
-      shooter.mode = SHOT_IN;
-    } else if (num == 2 && many + 1 == count.shotOut && once) {
-      shot.tare_position();
-      while(shot.get_position() > - 1500 || time > 2000) {
-        time = millis() - beginTime;
-        shooter.mode = SHOT_OUT;
-        delay(10);
-      }
-      once = false;
-    } else if (num == 2 && !once) {
-      shooter.mode = SHOT_SLOW_IN;
-      indexer.mode = INDX_IN;
-    } else if(num == 2 && once) {
-      shooter.mode = SHOT_IN;
-      indexer.mode = INDX_IN;
-    }
-    if(many == count.shotOut || time > 1400 * num) {
+    shooter.mode = SHOT_IN;
+    if(many == count.shotOut || time > 1400) {
       achieved = true;
     }
     delay(10);
@@ -51,21 +35,74 @@ void shoot(int num) {
   indexer.mode = INDX_MOVE_IN;
 }
 
-void centerShoot(int num) {
+void shootTwo() {
+  bool achieved = false;
+  bool once = true;
+  indexer.mode = INDX_COAST;
+  shooter.mode = SHOT_DO_NOTHING;
+  int two = count.shotOut;
+  two = two + 2;
+  int one = count.shotOut;
+  one = one + 1;
+  int beginTime = millis();
+  int time = 0;
+  while(!achieved) {
+    time = millis() - beginTime;
+    shooter.mode = SHOT_IN;
+    indexer.mode = INDX_IN;
+    if(one == count.shotOut && once) {
+      shot.tare_position();
+      while(shot.get_position() > - 1500 || time > 2000) {
+        time = millis() - beginTime;
+        shooter.mode = SHOT_OUT;
+        delay(10);
+      }
+      once = false;
+    }
+    if(two == count.shotOut || time > 2800) {
+      achieved = true;
+    }
+    delay(10);
+  }
+  shooter.mode = SHOT_MOVE_IN;
+  indexer.mode = INDX_MOVE_IN;
+}
+
+void centerShootOne() {
   bool achieved = false;
   bool once = true;
   indexer.mode = INDX_DO_NOTHING;
   shooter.mode = SHOT_DO_NOTHING;
   int many = count.shotOut;
-  many = many + num;
+  many = many + 1;
   int beginTime = millis();
   int time = 0;
   while(!achieved) {
     time = millis() - beginTime;
-    if(num == 1) {
-      shooter.mode = SHOT_SLOW_IN;
+    shooter.mode = SHOT_SLOW_IN;
+    if(many == count.shotOut || time > 1200) {
+      achieved = true;
     }
-    if(many == count.shotOut || time > 1400 * num) {
+    delay(10);
+  }
+  shooter.mode = SHOT_MOVE_IN;
+  indexer.mode = INDX_MOVE_IN;
+}
+
+void CenterShootWithIndexer() {
+  bool achieved = false;
+  bool once = true;
+  indexer.mode = INDX_DO_NOTHING;
+  shooter.mode = SHOT_DO_NOTHING;
+  int many = count.shotOut;
+  many = many + 1;
+  int beginTime = millis();
+  int time = 0;
+  while(!achieved) {
+    time = millis() - beginTime;
+    shooter.mode = SHOT_SLOW_IN;
+    indexer.mode = INDX_IN;
+    if(many == count.shotOut || time > 1200) {
       achieved = true;
     }
     delay(10);
@@ -113,6 +150,15 @@ void shooterTask(void* param){
         }
         shot.move(-70);
         break;
+      }
+
+
+      case SHOT_PREP: {
+        shot.tare_position();
+        while(shot.get_position() < 360) {
+          shot.move(50);
+        }
+        shooter.mode = SHOT_MOVE_IN;
       }
 
       case SHOT_COAST:

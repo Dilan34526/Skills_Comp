@@ -30,11 +30,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/util.cpp.o",
-            "src\\util.cpp"
+            "bin/sensor.cpp.o",
+            "src\\sensor.cpp"
         ],
         "directory": "C:\\Users\\dilan\\Documents\\GitHub\\2020 - 2021 Season\\Skills_Comp",
-        "file": "src\\util.cpp"
+        "file": "src\\sensor.cpp"
     },
     {
         "arguments": [
@@ -104,11 +104,122 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/shooter.cpp.o",
-            "src\\shooter.cpp"
+            "bin/controller.cpp.o",
+            "src\\controller.cpp"
         ],
         "directory": "C:\\Users\\dilan\\Documents\\GitHub\\2020 - 2021 Season\\Skills_Comp",
-        "file": "src\\shooter.cpp"
+        "file": "src\\controller.cpp"
+    },
+    {
+        "arguments": [
+            "clang++",
+            "-c",
+            "-target",
+            "armv7ar-none-none-eabi",
+            "-fno-ms-extensions",
+            "-fno-ms-compatibility",
+            "-fno-delayed-template-parsing",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/arm-none-eabi/thumb/v7-a+simd/softfp",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/backward",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/include",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/include-fixed",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include",
+            "-iquote./include",
+            "-iquote./include/./",
+            "-mcpu=cortex-a9",
+            "-mfpu=neon-fp16",
+            "-mfloat-abi=softfp",
+            "-Os",
+            "-g",
+            "-D_POSIX_THREADS",
+            "-D_UNIX98_THREAD_MUTEX_ATTRIBUTES",
+            "-Wno-psabi",
+            "-ffunction-sections",
+            "-fdata-sections",
+            "-fdiagnostics-color",
+            "-funwind-tables",
+            "--std=gnu++17",
+            "-o",
+            "bin/util.cpp.o",
+            "src\\util.cpp"
+        ],
+        "directory": "C:\\Users\\dilan\\Documents\\GitHub\\2020 - 2021 Season\\Skills_Comp",
+        "file": "src\\util.cpp"
+    },
+    {
+        "arguments": [
+            "clang++",
+            "-c",
+            "-target",
+            "armv7ar-none-none-eabi",
+            "-fno-ms-extensions",
+            "-fno-ms-compatibility",
+            "-fno-delayed-template-parsing",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/arm-none-eabi/thumb/v7-a+simd/softfp",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/backward",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/include",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/include-fixed",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include",
+            "-iquote./include",
+            "-iquote./include/./",
+            "-mcpu=cortex-a9",
+            "-mfpu=neon-fp16",
+            "-mfloat-abi=softfp",
+            "-Os",
+            "-g",
+            "-D_POSIX_THREADS",
+            "-D_UNIX98_THREAD_MUTEX_ATTRIBUTES",
+            "-Wno-psabi",
+            "-ffunction-sections",
+            "-fdata-sections",
+            "-fdiagnostics-color",
+            "-funwind-tables",
+            "--std=gnu++17",
+            "-o",
+            "bin/correct.cpp.o",
+            "src\\correct.cpp"
+        ],
+        "directory": "C:\\Users\\dilan\\Documents\\GitHub\\2020 - 2021 Season\\Skills_Comp",
+        "file": "src\\correct.cpp"
+    },
+    {
+        "arguments": [
+            "clang++",
+            "-c",
+            "-target",
+            "armv7ar-none-none-eabi",
+            "-fno-ms-extensions",
+            "-fno-ms-compatibility",
+            "-fno-delayed-template-parsing",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/arm-none-eabi/thumb/v7-a+simd/softfp",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/backward",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/include",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/include-fixed",
+            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include",
+            "-iquote./include",
+            "-iquote./include/./",
+            "-mcpu=cortex-a9",
+            "-mfpu=neon-fp16",
+            "-mfloat-abi=softfp",
+            "-Os",
+            "-g",
+            "-D_POSIX_THREADS",
+            "-D_UNIX98_THREAD_MUTEX_ATTRIBUTES",
+            "-Wno-psabi",
+            "-ffunction-sections",
+            "-fdata-sections",
+            "-fdiagnostics-color",
+            "-funwind-tables",
+            "--std=gnu++17",
+            "-o",
+            "bin/count.cpp.o",
+            "src\\count.cpp"
+        ],
+        "directory": "C:\\Users\\dilan\\Documents\\GitHub\\2020 - 2021 Season\\Skills_Comp",
+        "file": "src\\count.cpp"
     },
     {
         "arguments": [
@@ -178,11 +289,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/base.cpp.o",
-            "src\\base.cpp"
+            "bin/main.cpp.o",
+            "src\\main.cpp"
         ],
         "directory": "C:\\Users\\dilan\\Documents\\GitHub\\2020 - 2021 Season\\Skills_Comp",
-        "file": "src\\base.cpp"
+        "file": "src\\main.cpp"
     },
     {
         "arguments": [
@@ -289,11 +400,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/controller.cpp.o",
-            "src\\controller.cpp"
+            "bin/base.cpp.o",
+            "src\\base.cpp"
         ],
         "directory": "C:\\Users\\dilan\\Documents\\GitHub\\2020 - 2021 Season\\Skills_Comp",
-        "file": "src\\controller.cpp"
+        "file": "src\\base.cpp"
     },
     {
         "arguments": [
@@ -326,122 +437,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/main.cpp.o",
-            "src\\main.cpp"
+            "bin/shooter.cpp.o",
+            "src\\shooter.cpp"
         ],
         "directory": "C:\\Users\\dilan\\Documents\\GitHub\\2020 - 2021 Season\\Skills_Comp",
-        "file": "src\\main.cpp"
-    },
-    {
-        "arguments": [
-            "clang++",
-            "-c",
-            "-target",
-            "armv7ar-none-none-eabi",
-            "-fno-ms-extensions",
-            "-fno-ms-compatibility",
-            "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/arm-none-eabi/thumb/v7-a+simd/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include",
-            "-iquote./include",
-            "-iquote./include/./",
-            "-mcpu=cortex-a9",
-            "-mfpu=neon-fp16",
-            "-mfloat-abi=softfp",
-            "-Os",
-            "-g",
-            "-D_POSIX_THREADS",
-            "-D_UNIX98_THREAD_MUTEX_ATTRIBUTES",
-            "-Wno-psabi",
-            "-ffunction-sections",
-            "-fdata-sections",
-            "-fdiagnostics-color",
-            "-funwind-tables",
-            "--std=gnu++17",
-            "-o",
-            "bin/count.cpp.o",
-            "src\\count.cpp"
-        ],
-        "directory": "C:\\Users\\dilan\\Documents\\GitHub\\2020 - 2021 Season\\Skills_Comp",
-        "file": "src\\count.cpp"
-    },
-    {
-        "arguments": [
-            "clang++",
-            "-c",
-            "-target",
-            "armv7ar-none-none-eabi",
-            "-fno-ms-extensions",
-            "-fno-ms-compatibility",
-            "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/arm-none-eabi/thumb/v7-a+simd/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include",
-            "-iquote./include",
-            "-iquote./include/./",
-            "-mcpu=cortex-a9",
-            "-mfpu=neon-fp16",
-            "-mfloat-abi=softfp",
-            "-Os",
-            "-g",
-            "-D_POSIX_THREADS",
-            "-D_UNIX98_THREAD_MUTEX_ATTRIBUTES",
-            "-Wno-psabi",
-            "-ffunction-sections",
-            "-fdata-sections",
-            "-fdiagnostics-color",
-            "-funwind-tables",
-            "--std=gnu++17",
-            "-o",
-            "bin/correct.cpp.o",
-            "src\\correct.cpp"
-        ],
-        "directory": "C:\\Users\\dilan\\Documents\\GitHub\\2020 - 2021 Season\\Skills_Comp",
-        "file": "src\\correct.cpp"
-    },
-    {
-        "arguments": [
-            "clang++",
-            "-c",
-            "-target",
-            "armv7ar-none-none-eabi",
-            "-fno-ms-extensions",
-            "-fno-ms-compatibility",
-            "-fno-delayed-template-parsing",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/arm-none-eabi/thumb/v7-a+simd/softfp",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include/c++/10.2.1/backward",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/include",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/include-fixed",
-            "-isystemc:\\program files\\pros\\toolchain\\usr\\gcc-arm-none-eabi-10-2020-q4-major\\bin\\../lib/gcc/arm-none-eabi/10.2.1/../../../../arm-none-eabi/include",
-            "-iquote./include",
-            "-iquote./include/./",
-            "-mcpu=cortex-a9",
-            "-mfpu=neon-fp16",
-            "-mfloat-abi=softfp",
-            "-Os",
-            "-g",
-            "-D_POSIX_THREADS",
-            "-D_UNIX98_THREAD_MUTEX_ATTRIBUTES",
-            "-Wno-psabi",
-            "-ffunction-sections",
-            "-fdata-sections",
-            "-fdiagnostics-color",
-            "-funwind-tables",
-            "--std=gnu++17",
-            "-o",
-            "bin/sensor.cpp.o",
-            "src\\sensor.cpp"
-        ],
-        "directory": "C:\\Users\\dilan\\Documents\\GitHub\\2020 - 2021 Season\\Skills_Comp",
-        "file": "src\\sensor.cpp"
+        "file": "src\\shooter.cpp"
     },
     {
         "arguments": [

@@ -102,5 +102,5 @@ void controllerInput() {
   }
   drive();
 
-  // lcd::set_text(6, "Left " + std::to_string(left.get()));
+  lcd::set_text(6, "Back " + std::to_string(back.get()));
 }

@@ -91,7 +91,7 @@ void driveToGoal(float fTarget, int maxVoltage, int smallVoltage) {
 }
 
 
-void driveDiag(float fTarget, int maxVoltage) {
+void driveDiag(float fTarget, int maxVoltage, bool colorRestriction) {
 
 	delay(15);
 	float origin = diag.get();
@@ -169,21 +169,24 @@ void driveDiag(float fTarget, int maxVoltage) {
 			 }
 		 }
 
-		 if(color[0] == "R") {
-			shooter.mode = SHOT_DO_NOTHING;
-			shot.set_brake_mode(E_MOTOR_BRAKE_HOLD);
-			shot.move_velocity(0);
-		} else if(!outtake) {
-			shooter.mode = SHOT_OUT;
-		}
+		 if(colorRestriction) {
+			 if(color[0] == "R") {
+				shooter.mode = SHOT_DO_NOTHING;
+				shot.set_brake_mode(E_MOTOR_BRAKE_HOLD);
+				shot.move_velocity(0);
+			} else if(!outtake) {
+				shooter.mode = SHOT_OUT;
+			}
 
-		 if(color[1] == "R") {
-			indexer.mode = INDX_DO_NOTHING;
- 			indx.set_brake_mode(E_MOTOR_BRAKE_HOLD);
- 			indx.move_velocity(0);
-		} else if(!outtake) {
-			indexer.mode = INDX_OUT;
-		}
+			 if(color[1] == "R") {
+				indexer.mode = INDX_DO_NOTHING;
+	 			indx.set_brake_mode(E_MOTOR_BRAKE_HOLD);
+	 			indx.move_velocity(0);
+			} else if(!outtake) {
+				indexer.mode = INDX_OUT;
+			}
+		 }
+
 
      //calculate SLEW
      driveLOOP.motorOut = slewCalculate(driveSLEW.lastValMTR, driveLOOP.pidOut, driveSLEW.accelRate, maxVoltage);
