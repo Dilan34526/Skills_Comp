@@ -77,18 +77,24 @@ float	pidCalculate (PID&pid, float setPoint, float processVariable) {
 }
 
 float slewCalculate (float lastVal, float newVal, float accel, float maxVoltage) {
-    float out = 127;
-    out = lastVal + accel;
-    if(fabs(out) > fabs(maxVoltage) && fabs(lastVal) < fabs(maxVoltage)) {
-        out = maxVoltage;
-    }
-    if(lastVal == maxVoltage) {
-      out = maxVoltage;
-    }
-    if(fabs(newVal) < fabs(maxVoltage)) {
-        out = newVal;
-    }
-    return out;
+	float out = 127;
+	out = lastVal + accel;
+	if(sign(lastVal) == sign(accel)) {
+		if(fabs(out) > fabs(maxVoltage)) {
+		out = maxVoltage;
+		}
+	} else {
+		if(fabs(out) < fabs(maxVoltage)) {
+		out = maxVoltage;
+		}
+	}
+	if(lastVal == 0) {
+		out = lastVal + accel;
+	}
+	if(fabs(newVal) < fabs(maxVoltage)) {
+		out = newVal;
+	}
+	return out;
 }
 
 float slewCalculate (float lastVal, float accel, float maxVoltage) {

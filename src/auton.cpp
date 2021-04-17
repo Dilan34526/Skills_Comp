@@ -23,7 +23,7 @@ void secondGoal() {
   turn(-90, 125, 1000);
   drive(26, 125, 1050);
   intake.mode = INTK_COAST;
-  driveToGoal(10, 125, 95);
+  driveToGoal(10, 80, 65);
   shootOne();
   drive(-20, -125, 950);
   turn(0, 125, 950);
@@ -31,36 +31,63 @@ void secondGoal() {
 }
 
 void thirdGoal() {
-  pidInit(headingPID, 4.5, 0, 0, 0, 0);
-  drive(50, 125, 36, 80, 1650);
-  pidInit(headingPID, 3, 0, 0, 0, 0);
-  drive(-3, 50, 650);
-  turn(-90, 125, 1000);
-  drive(16, 125, 900);
+  slewInit(driveSLEW, 15);
+  drive(56, 125, 40, 95, 1650);
+  drive(-28, 125, 1200);
   turn(-45, 125, 950);
   indexer.mode = INDX_BLUE;
-  driveToGoal(10, 125, 80);
+  driveToGoal(15, 125, 65);
   indexer.mode = INDX_DO_NOTHING;
   indx.move_relative(360, 200);
   shootOne();
   indexer.mode = INDX_MOVE_IN;
   delay(180);
+  turn(-45, 125, 100);
   intake.mode = INTK_COAST;
   driveDiag(1100, -100, true);
   shooter.mode = SHOT_MOVE_OUT;
   turn(90, 125, 1250);
   shooter.mode = SHOT_MOVE_IN;
   intake.mode = INTK_IN;
+
+
+  // slewInit(driveSLEW, 15);
+  // pidInit(headingPID, 4.5, 0, 0, 0, 0);
+  // drive(50, 125, 36, 80, 1650);
+  // pidInit(headingPID, 3, 0, 0, 0, 0);
+  // drive(-3, 50, 650);
+  // turn(-90, 125, 1000);
+  // drive(16, 125, 900);
+  // turn(-45, 125, 950);
+  // indexer.mode = INDX_BLUE;
+  // driveToGoal(10, 125, 80);
+  // indexer.mode = INDX_DO_NOTHING;
+  // indx.move_relative(360, 200);
+  // shootOne();
+  // indexer.mode = INDX_MOVE_IN;
+  // delay(180);
+  // intake.mode = INTK_COAST;
+  // driveDiag(1100, -100, true);
+  // shooter.mode = SHOT_MOVE_OUT;
+  // turn(90, 125, 1250);
+  // shooter.mode = SHOT_MOVE_IN;
+  // intake.mode = INTK_IN;
 }
 
 void fourthGoal() {
   goToBall(90, true);
   turn(0, 125, 1150);
   intake.mode = INTK_COAST;
-  driveToGoal(32, 125, 80);
-  shootOne();
-  delay(400);
-  shootOne();
+  drive(30, 125, 1450);
+  driveToGoal(4, 80, 65);
+  bool secondBall = filled[1];
+  if(secondBall) {
+    shootOne();
+    delay(400);
+    shootOne();
+  } else {
+    shootOne();
+  }
   drive(-6, -100, 650);
   turn(90, 125, 950);
   intake.mode = INTK_IN;
@@ -83,11 +110,11 @@ void fifthGoal() {
 }
 
 void sixthGoal() {
-  goToBall(180, true);
+  goToBall(180);
   turn(90, 125, 1150);
   drive(23, 125, 1300);
   intake.mode = INTK_COAST;
-  driveToGoal(10, 125, 95);
+  driveToGoal(10, 80, 65);
   shootOne();
   drive(-20, -125, 950);
   turn(180, 125, 950);
@@ -95,45 +122,125 @@ void sixthGoal() {
 }
 
 void seventhGoal() {
-  pidInit(headingPID, 4.5, 0, 0, 0, 0);
-  drive(50, 125, 36, 80, 1600);
-  pidInit(headingPID, 3, 0, 0, 0, 0);
-  drive(-3, 50, 650);
-  turn(90, 125, 1000);
-  drive(16, 125, 1500);
-  turn(135, 125, 950);
+  slewInit(driveSLEW, 15);
+  drive(56, 125, 40, 95, 1650);
+  drive(-28, 125, 1200);
+  turn(135, 125, 1000);
   indexer.mode = INDX_BLUE;
-  driveToGoal(10, 125, 80);
-  indexer.mode = INDX_DO_NOTHING;
-  indx.move_relative(360, 200);
+  driveToGoal(15, 125, 65);
   shootOne();
   indexer.mode = INDX_MOVE_IN;
   delay(180);
   intake.mode = INTK_COAST;
+  turn(135, 125, 100);
   driveDiag(1100, -100, true);
   shooter.mode = SHOT_MOVE_OUT;
-  turn(270, 125, 1150);
+  turn(270, 125, 1250);
   shooter.mode = SHOT_MOVE_IN;
   intake.mode = INTK_IN;
 }
 
 void eighthGoal() {
   pidInit(headingPID, 4.5, 0, 0, 0, 0);
-  turn(270, 30, 100);
-  goToBall(270, true);
-  float y_error =  (1610 - back.get())/25.4;
-  drive(y_error, 125);
-  pidInit(headingPID, 0.5, 0, 0, 0, 0);
-  drive(-3, 50, 500);
+  goToBall(270);
+  float b = back.get();
+  while(b > 5000 || b < 100) {
+    b = back.get();
+    delay(2);
+  }
+  float y_error =  (1620 - b)/25.4;
+  if(fabs(y_error) > 0.6) {
+    drive(y_error, 125, 1000);
+  }
   turn(360, 125, 1000);
   intake.mode = INTK_OUT;
-  drive(14, 125, 1500);
-  turn(330, 125, 1000);
+  drive(20, 80, 1000);
   float elapsed2 = millis() - time;
   lcd::print(6, "Elapsed 2 %d", elapsed2);
   centerShootOne();
-  delay(100);
+  delay(1000);
+  shooter.mode = SHOT_COAST;
+  drive(-13, 125, 900);
+  float x = left.get();
+  int counter = 0;
+  while((x > 5000 || x < 100) && counter < 25) {
+    b = back.get();
+    counter++;
+    delay(2);
+  }
+  if(x > 1815) {
+    turn(345, 125, 400);
+  }
+  drive(17, 125, 1000);
   CenterShootWithIndexer();
+  slewInit(driveSLEW, 125);
+  drive(-10, 125);
+
+  // pidInit(headingPID, 4.5, 0, 0, 0, 0);
+  // goToBall(270);
+  // float b = back.get();
+  // while(b > 5000 || b < 100) {
+  //   b = back.get();
+  //   delay(2);
+  // }
+  // float y_error =  (1640 - b)/25.4;
+  // if(fabs(y_error) > 0.6) {
+  //   drive(y_error, 125, 1000);
+  // }
+  // turn(360, 125, 1000);
+  // intake.mode = INTK_OUT;
+  // drive(20, 80, 1000);
+  // float elapsed2 = millis() - time;
+  // lcd::print(6, "Elapsed 2 %d", elapsed2);
+  // centerShootOne();
+  // delay(1000);
+  // shooter.mode = SHOT_COAST;
+  // drive(-13, 125, 900);
+  // float x = back.get();
+  // int counter = 0;
+  // while((x > 5000 || x < 100) && counter < 25) {
+  //   b = back.get();
+  //   counter++;
+  //   delay(2);
+  // }
+  // if(x > 1700) {
+  //   turn(330, 125, 400);
+  // }
+  // drive(17, 125, 1000);
+  // CenterShootWithIndexer();
+  // slewInit(driveSLEW, 125);
+  // drive(-10, 125);
+
+
+
+
+
+
+
+  //
+  // pidInit(headingPID, 4.5, 0, 0, 0, 0);
+  // goToBall(270);
+  // float b = back.get();
+  // while(b > 5000 || b < 100) {
+  //   b = back.get();
+  //   delay(2);
+  // }
+  // float y_error =  (1660 - b)/25.4;
+  // if(fabs(y_error) > 0.6) {
+  //   drive(y_error, 125, 1000);
+  // }
+  // turn(360, 125, 1000);
+  // intake.mode = INTK_OUT;
+  // drive(20, 80, 1000);
+  // float elapsed2 = millis() - time;
+  // lcd::print(6, "Elapsed 2 %d", elapsed2);
+  // centerShootOne();
+  // delay(1000);
+  // drive(-13, 125, 900);
+  // drive(17, 125, 1000);
+  // CenterShootWithIndexer();
+  // slewInit(driveSLEW, 125);
+  // drive(-10, 125);
 }
 /*
 float elapsed = millis() - time;
@@ -160,49 +267,25 @@ void auton(){
   shooter.mode = SHOT_MOVE_IN;
   intake.mode = INTK_IN;
   indexer.mode = INDX_MOVE_IN;
-  pidInit(headingPID, 3, 0, 0, 0, 0);
-  pidInit(turnPID, 15, 0, 0.95, 0, 0);
+  pidInit(headingPID, 4.5, 0, 0, 0, 0);
+  pidInit(turnPID, 15, 0, 1.05, 0, 0);
   pidInit(drivePID, 0.178, 0, 0.01, 0, 0);
   pidInit(backPID, 9.5, 0, 0.02, 0, 0);
   slewInit(driveSLEW, 15);
   slewInit(turnSLEW, 15);
 
-  // firstGoal();
-  // secondGoal();
-  // thirdGoal();
-  // fourthGoal();
-  // fifthGoal();
-  // sixthGoal();
-  // seventhGoal();
-  // eighthGoal();
+  firstGoal();
+  secondGoal();
+  thirdGoal();
+  fourthGoal();
+  fifthGoal();
+  sixthGoal();
+  seventhGoal();
+  eighthGoal();
 
-  imuDifference = 0;
+  // imuDifference = 0;
 
 
-
-  pidInit(headingPID, 4.5, 0, 0, 0, 0);
-  goToBall(0, true);
-  float b = back.get();
-  while(b > 5000 || b < 100) {
-    b = back.get();
-    delay(2);
-  }
-  float y_error =  (1565 - b)/25.4;
-  drive(y_error, 125, 1000);
-  turn(90, 125, 1000);
-  intake.mode = INTK_OUT;
-  pidInit(headingPID, 18, 0, 0, 0, 0);
-  drive(28, 127, 1500);
-  dlf.move(127);
-  drb.move(127);
-  dlb.move(127);
-  drf.move(127);
-  delay(100);
-  float elapsed2 = millis() - time;
-  lcd::print(6, "Elapsed 2 %d", elapsed2);
-  centerShootOne();
-  delay(400);
-  centerShootOne();
 
 
   // pidInit(headingPID, 4.5, 0, 0, 0, 0);
@@ -225,11 +308,11 @@ void auton(){
   elapsed = millis() - time;
   lcd::print(7, "Elapsed %d", elapsed);
 
-  std::vector<std::pair<std::string, std::vector<float>>> drive
-  = {{"Elapsed", driveVec.elapsed}, {"Process", driveVec.process},  {"Target", driveVec.target}, {"Motor", driveVec.motor},  {"PID", driveVec.pid}, {"Turn", driveVec.turn},
-     {"DLF", driveVec.dlf}, {"DLB", driveVec.dlb}, {"DRF", driveVec.drf}, {"DRB", driveVec.drb}};
-  write_csv("/usd/Drive.csv", drive);
-  //
+  // std::vector<std::pair<std::string, std::vector<float>>> drive
+  // = {{"Elapsed", driveVec.elapsed}, {"Process", driveVec.process},  {"Target", driveVec.target}, {"Motor", driveVec.motor},  {"PID", driveVec.pid}, {"Turn", driveVec.turn},
+  //    {"DLF", driveVec.dlf}, {"DLB", driveVec.dlb}, {"DRF", driveVec.drf}, {"DRB", driveVec.drb}};
+  // write_csv("/usd/Drive.csv", drive);
+  // //
   // std::vector<std::pair<std::string, std::vector<float>>> goal
   // = {{"Elapsed", goalVec.elapsed}, {"Process", goalVec.process}, {"Target", goalVec.target}, {"Motor", goalVec.motor}};
   // write_csv("/usd/Goal.csv", goal);

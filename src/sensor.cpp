@@ -113,6 +113,7 @@ void driveDiag(float fTarget, int maxVoltage, bool colorRestriction) {
 	float enc = -dist/WHEEL_CIRCMF * 360 * 5/3;
 	bool once = true;
 	bool outtake = true;
+	int outtaked = count.outtaked + 2;
 
 
 	driveSLEW.accelRate = signChecker(driveSLEW.accelRate, maxVoltage);
@@ -170,21 +171,31 @@ void driveDiag(float fTarget, int maxVoltage, bool colorRestriction) {
 		 }
 
 		 if(colorRestriction) {
-			 if(color[0] == "R") {
-				shooter.mode = SHOT_DO_NOTHING;
-				shot.set_brake_mode(E_MOTOR_BRAKE_HOLD);
-				shot.move_velocity(0);
-			} else if(!outtake) {
-				shooter.mode = SHOT_OUT;
-			}
-
-			 if(color[1] == "R") {
-				indexer.mode = INDX_DO_NOTHING;
-	 			indx.set_brake_mode(E_MOTOR_BRAKE_HOLD);
-	 			indx.move_velocity(0);
-			} else if(!outtake) {
-				indexer.mode = INDX_OUT;
-			}
+			   if(count.outtaked < outtaked) {
+					intake.mode = INTK_OUT;
+					indexer.mode = INDX_OUT;
+					shooter.mode = SHOT_OUT;
+				} else {
+					delay(25);
+					intake.mode = INTK_COAST;
+					indexer.mode = INDX_MOVE_IN;
+					shooter.mode = SHOT_MOVE_IN;
+				}
+			//  if(color[0] == "R") {
+			// 	shooter.mode = SHOT_DO_NOTHING;
+			// 	shot.set_brake_mode(E_MOTOR_BRAKE_HOLD);
+			// 	shot.move_velocity(0);
+			// } else if(!outtake) {
+			// 	shooter.mode = SHOT_OUT;
+			// }
+			//
+			//  if(color[1] == "R") {
+			// 	indexer.mode = INDX_DO_NOTHING;
+	 		// 	indx.set_brake_mode(E_MOTOR_BRAKE_HOLD);
+	 		// 	indx.move_velocity(0);
+			// } else if(!outtake) {
+			// 	indexer.mode = INDX_OUT;
+			// }
 		 }
 
 

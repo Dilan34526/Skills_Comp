@@ -21,12 +21,12 @@ void initOut() {
 
 void initCount() {
   count.shotOut = 0;
+  count.outtaked = 0;
   indxOpt.set_led_pwm(50);
   shotOpt.set_led_pwm(50);
 }
 
-// bool intkWentDown = true;
-// int intaked = 0;
+bool intkWentUp = false;
 void countBalls() {
 
 
@@ -41,16 +41,16 @@ void countBalls() {
     }
   }
 
-  // if(inl.get_direction() == 1 && inl.get_actual_velocity() < 175) {
-  //   intkWentDown = true;
-  // }
-  //
-  // if(intkWentDown) {
-  //   if(inl.get_actual_velocity() > 175) {
-  //     intkWentDown = false;
-  //     intaked++;
-  //   }
-  // }
+  if(inl.get_direction() == -1 && down.get() < 300) {
+    intkWentUp = true;
+  }
+
+  if(intkWentUp) {
+    if(down.get() > 300) {
+      intkWentUp = false;
+      count.outtaked++;
+    }
+  }
 
   if(line.get_value() < 2850) {
     filled[0] = true;
@@ -81,20 +81,16 @@ void countBalls() {
   } else {
     color[1] = "N";
   }
+
+  lcd::set_text(0, "Outtaked" + std::to_string(count.outtaked));
+
 }
 
 void countTask(void* param){
   initCount();
   initOut();
-  float beginTime = millis();
-  std::vector<float> elapsed;
-  std::vector<float> inlVel;
-  std::vector<float> inrVel;
-  std::vector<float> inlCur;
-  std::vector<float> inrCur;
 
   while(true){
-
 
     countBalls();
 

@@ -74,13 +74,13 @@ void drive(float fTarget, int maxVoltage, float distance, int smallVoltage, int 
       timed.atTarget = true;
     }
 
-    // driveVec.elapsed.push_back(timed.timer);
-    // driveVec.process.push_back(driveLOOP.processVariable);
-    // driveVec.target.push_back(driveLOOP.target);
-    // driveVec.pid.push_back(driveLOOP.pidOut);
-    // driveVec.motor.push_back(driveLOOP.motorOut);
+    driveVec.elapsed.push_back(timed.timer);
+    driveVec.process.push_back(driveLOOP.processVariable);
+    driveVec.target.push_back(driveLOOP.target);
+    driveVec.pid.push_back(driveLOOP.pidOut);
+    driveVec.motor.push_back(driveLOOP.motorOut);
     // driveVec.accel.push_back(driveSLEW.accelRate);
-    // driveVec.turn.push_back(turnLOOP.motorOut);
+    driveVec.turn.push_back(turnLOOP.motorOut);
 
 
     delay(10);

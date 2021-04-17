@@ -20,7 +20,12 @@ void clearLCDLines() {
 float sign(float input){
   /* determine the sign of an input value by dividing the value by the
   absolute value of itself */
-  float output = input / fabs(input);
+  float output;
+  if(input == 0) {
+    output = 1;
+  } else {
+    output = input / fabs(input);
+  }
   return output;
 }
 

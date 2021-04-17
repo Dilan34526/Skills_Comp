@@ -35,7 +35,7 @@ void goToBall(float heading) {
   }
   if(fabs(heading - angle_absolute) > 3) {
     turn(angle_absolute, 20, 300);
-    drive(dist, 115, 1500);
+    drive(dist, 125, 1000);
   } else {
     drive(dist, 125, 1050);
   }

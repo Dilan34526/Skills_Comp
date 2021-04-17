@@ -127,7 +127,7 @@ void shooterTask(void* param){
     		break;
 
       case SHOT_SLOW_IN: {
-        shot.move(100);
+        shot.move(90);
         break;
       }
 
